@@ -42,5 +42,13 @@ public class EventService {
                 .map(eventMapper::toResponseDTO)
                 .collect(Collectors.toList());
     }
+    public List<EventResponseDTO> getAllEventsSorted() {
+        List<Event> events = eventRepository.findAll();
 
+        events.sort((event1, event2) -> event1.getEventName().compareToIgnoreCase(event2.getEventName()));
+
+        return events.stream()
+                .map(eventMapper::toResponseDTO)
+                .collect(Collectors.toList());
+    }
 }
