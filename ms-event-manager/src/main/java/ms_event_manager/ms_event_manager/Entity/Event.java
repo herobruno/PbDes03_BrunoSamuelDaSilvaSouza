@@ -40,10 +40,7 @@ public class Event {
 
     @Id
     private String id;
-
     private String eventName;
-
     private LocalDateTime dateTime;
-
     private String cep;
 }

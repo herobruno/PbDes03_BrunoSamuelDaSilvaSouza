@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class EventMapper {
 
-    // Converte EventRequestDTO para Event (para criar ou atualizar)
+
     public Event toEntity(EventRequestDTO dto) {
         Event event = new Event();
         event.setEventName(dto.getEventName());
@@ -17,7 +17,7 @@ public class EventMapper {
         return event;
     }
 
-    // Converte Event para EventResponseDTO (para responder)
+
     public EventResponseDTO toResponseDTO(Event event) {
         EventResponseDTO dto = new EventResponseDTO();
         dto.setId(event.getId());

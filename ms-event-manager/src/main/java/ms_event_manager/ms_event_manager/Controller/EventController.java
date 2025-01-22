@@ -36,6 +36,6 @@ public class EventController {
     @GetMapping("/get-all-events")
     public ResponseEntity<List<EventResponseDTO>> getAllEvents() {
         List<EventResponseDTO> events = eventService.getAllEvents();
-        return ResponseEntity.ok(events);  // Garantindo que seja um ResponseEntity com a lista de EventResponseDTO
+        return ResponseEntity.ok(events);
     }
 }
