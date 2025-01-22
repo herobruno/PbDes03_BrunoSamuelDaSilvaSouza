@@ -4,6 +4,7 @@ package ms_event_manager.ms_event_manager.Service;
 import ms_event_manager.ms_event_manager.Entity.Event;
 import ms_event_manager.ms_event_manager.Dto.EventRequestDTO;
 import ms_event_manager.ms_event_manager.Dto.EventResponseDTO;
+import ms_event_manager.ms_event_manager.Dto.EventUpdateDTO;
 import ms_event_manager.ms_event_manager.Dto.Mapper.EventMapper;
 import ms_event_manager.ms_event_manager.Repository.EventRepository;
 import org.springframework.stereotype.Service;
@@ -50,5 +51,29 @@ public class EventService {
         return events.stream()
                 .map(eventMapper::toResponseDTO)
                 .collect(Collectors.toList());
+    }
+
+    public EventResponseDTO updateEvent(String id, EventUpdateDTO eventUpdateDTO) {
+        Optional<Event> eventOptional = eventRepository.findById(id);
+
+        if (eventOptional.isEmpty()) {
+            throw new RuntimeException("Evento não encontrado com o ID: " + id);
+        }
+
+        Event event = eventOptional.get();
+
+        if (eventUpdateDTO.getEventName() != null) {
+            event.setEventName(eventUpdateDTO.getEventName());
+        }
+        if (eventUpdateDTO.getDateTime() != null) {
+            event.setDateTime(eventUpdateDTO.getDateTime());
+        }
+        if (eventUpdateDTO.getCep() != null) {
+            event.setCep(eventUpdateDTO.getCep());
+        }
+
+        Event updatedEvent = eventRepository.save(event);
+
+        return eventMapper.toResponseDTO(updatedEvent);
     }
 }

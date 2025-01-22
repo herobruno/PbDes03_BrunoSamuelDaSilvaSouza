@@ -3,6 +3,7 @@ package ms_event_manager.ms_event_manager.Controller;
 import jakarta.validation.Valid;
 import ms_event_manager.ms_event_manager.Dto.EventRequestDTO;
 import ms_event_manager.ms_event_manager.Dto.EventResponseDTO;
+import ms_event_manager.ms_event_manager.Dto.EventUpdateDTO;
 import ms_event_manager.ms_event_manager.Service.EventService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,5 +43,11 @@ public class EventController {
     public ResponseEntity<List<EventResponseDTO>> getAllEventsSorted() {
         List<EventResponseDTO> events = eventService.getAllEventsSorted();
         return ResponseEntity.ok(events);
+    }
+    @PutMapping("/update-event/{id}")
+    public ResponseEntity<EventResponseDTO> updateEvent(@PathVariable String id,
+                                                        @RequestBody EventUpdateDTO eventUpdateDTO) {
+        EventResponseDTO updatedEvent = eventService.updateEvent(id, eventUpdateDTO);
+        return ResponseEntity.ok(updatedEvent);
     }
 }
