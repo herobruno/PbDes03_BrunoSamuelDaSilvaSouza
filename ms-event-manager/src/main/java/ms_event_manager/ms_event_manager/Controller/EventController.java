@@ -50,4 +50,13 @@ public class EventController {
         EventResponseDTO updatedEvent = eventService.updateEvent(id, eventUpdateDTO);
         return ResponseEntity.ok(updatedEvent);
     }
+    @DeleteMapping("/delete-event/{id}")
+    public ResponseEntity<String> deleteEvent(@PathVariable String id) {
+        try {
+            eventService.deleteEvent(id);
+            return ResponseEntity.ok("Evento excluído com sucesso.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body("Erro: " + e.getMessage());
+        }
+    }
 }

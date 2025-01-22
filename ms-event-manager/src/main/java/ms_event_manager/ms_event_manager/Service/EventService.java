@@ -76,4 +76,11 @@ public class EventService {
 
         return eventMapper.toResponseDTO(updatedEvent);
     }
+    public void deleteEvent(String id) {
+        Optional<Event> eventOptional = eventRepository.findById(id);
+        if (eventOptional.isEmpty()) {
+            throw new RuntimeException("Evento não encontrado com o ID: " + id);
+        }
+        eventRepository.deleteById(id);
+    }
 }
