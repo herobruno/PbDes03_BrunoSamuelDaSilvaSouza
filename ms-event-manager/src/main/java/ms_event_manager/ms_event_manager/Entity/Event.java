@@ -43,4 +43,9 @@ public class Event {
     private String eventName;
     private LocalDateTime dateTime;
     private String cep;
+    private String logradouro;
+    private String bairro;
+    private String cidade;
+    private String uf;
+
 }

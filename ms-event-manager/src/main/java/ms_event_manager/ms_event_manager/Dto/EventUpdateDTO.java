@@ -7,10 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class EventUpdateDTO {
-
     private String eventName;
-
     private LocalDateTime dateTime;
-
     private String cep;
 }

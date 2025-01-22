@@ -9,21 +9,16 @@ import org.springframework.stereotype.Component;
 public class EventMapper {
 
 
-    public Event toEntity(EventRequestDTO dto) {
-        Event event = new Event();
-        event.setEventName(dto.getEventName());
-        event.setDateTime(dto.getDateTime());
-        event.setCep(dto.getCep());
-        return event;
-    }
-
-
     public EventResponseDTO toResponseDTO(Event event) {
         EventResponseDTO dto = new EventResponseDTO();
         dto.setId(event.getId());
         dto.setEventName(event.getEventName());
         dto.setDateTime(event.getDateTime());
         dto.setCep(event.getCep());
+        dto.setLogradouro(event.getLogradouro());
+        dto.setBairro(event.getBairro());
+        dto.setLocalidade(event.getCidade());
+        dto.setUf(event.getUf());
         return dto;
     }
 }

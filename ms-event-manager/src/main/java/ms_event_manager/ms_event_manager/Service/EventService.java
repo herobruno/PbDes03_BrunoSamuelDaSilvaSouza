@@ -1,12 +1,15 @@
 package ms_event_manager.ms_event_manager.Service;
 
 
+import ms_event_manager.ms_event_manager.Dto.EnderecoDTO;
 import ms_event_manager.ms_event_manager.Entity.Event;
 import ms_event_manager.ms_event_manager.Dto.EventRequestDTO;
 import ms_event_manager.ms_event_manager.Dto.EventResponseDTO;
 import ms_event_manager.ms_event_manager.Dto.EventUpdateDTO;
 import ms_event_manager.ms_event_manager.Dto.Mapper.EventMapper;
 import ms_event_manager.ms_event_manager.Repository.EventRepository;
+import ms_event_manager.ms_event_manager.Repository.ViaCepClient;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,16 +21,31 @@ public class EventService {
 
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
+    private ViaCepClient viaCepClient;
 
-    public EventService(EventRepository eventRepository, EventMapper eventMapper) {
+
+    public EventService(EventRepository eventRepository, EventMapper eventMapper, ViaCepClient viaCepClient) {
         this.eventRepository = eventRepository;
         this.eventMapper = eventMapper;
+        this.viaCepClient = viaCepClient;
     }
 
-    public EventResponseDTO createEvent(EventRequestDTO requestDTO) {
-        Event event = eventMapper.toEntity(requestDTO);
-        Event savedEvent = eventRepository.save(event);
-        return eventMapper.toResponseDTO(savedEvent);
+    public EventResponseDTO createEvent(EventRequestDTO eventRequestDTO) {
+        EnderecoDTO endereco = viaCepClient.consultarEndereco(eventRequestDTO.getCep());
+
+        Event event = new Event();
+        event.setEventName(eventRequestDTO.getEventName());
+        event.setDateTime(eventRequestDTO.getDateTime());
+        event.setCep(eventRequestDTO.getCep());
+        event.setLogradouro(endereco.getLogradouro());
+        event.setBairro(endereco.getBairro());
+        event.setCidade(endereco.getLocalidade());
+        event.setUf(endereco.getUf());
+
+
+        eventRepository.save(event);
+
+        return eventMapper.toResponseDTO(event);
     }
     public EventResponseDTO getEventById(String id) {
         Optional<Event> eventOptional = eventRepository.findById(id);
