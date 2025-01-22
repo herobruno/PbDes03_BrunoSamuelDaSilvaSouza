@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 
 @RestController
@@ -25,9 +26,16 @@ public class EventController {
         EventResponseDTO responseDTO = eventService.createEvent(requestDTO);
         return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
     }
+
     @GetMapping("/get-event/{id}")
     public ResponseEntity<EventResponseDTO> getEventById(@PathVariable String id) {
         EventResponseDTO responseDTO = eventService.getEventById(id);
         return ResponseEntity.ok(responseDTO);
+    }
+
+    @GetMapping("/get-all-events")
+    public ResponseEntity<List<EventResponseDTO>> getAllEvents() {
+        List<EventResponseDTO> events = eventService.getAllEvents();
+        return ResponseEntity.ok(events);  // Garantindo que seja um ResponseEntity com a lista de EventResponseDTO
     }
 }
