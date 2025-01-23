@@ -1,5 +1,6 @@
 package ms_ticket_manager.ms_ticket_manager.Service;
 
+import ms_ticket_manager.ms_ticket_manager.Config.RabbitMQConfig;
 import ms_ticket_manager.ms_ticket_manager.Exception.TicketNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,14 +11,18 @@ import ms_ticket_manager.ms_ticket_manager.Repository.TicketRepository;
 import ms_ticket_manager.ms_ticket_manager.Dto.TicketRequestDTO;
 import ms_ticket_manager.ms_ticket_manager.Dto.TicketResponseDTO;
 import ms_ticket_manager.ms_ticket_manager.Dto.EventResponseDTO;
-
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 @Service
 public class TicketService {
+    private final RabbitTemplate rabbitTemplate;
 
+    public TicketService(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
+    }
     private static final Logger log = LoggerFactory.getLogger(TicketService.class);
 
     @Autowired
@@ -35,33 +40,27 @@ public class TicketService {
         ticket.setUSDtotalAmount(ticketRequestDTO.getUsdAmount());
         ticket.setStatus("concluído");
 
+
         String eventDateTimeString = eventResponseDTO.getDateTime();
         try {
             if (eventDateTimeString != null && !eventDateTimeString.isEmpty()) {
                 LocalDateTime eventDateTime = LocalDateTime.parse(eventDateTimeString, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
                 ticket.setDateTime(eventDateTime);
-                log.info("Data do evento parseada com sucesso: {}", eventDateTime);
             } else {
                 ticket.setDateTime(LocalDateTime.now());
-                log.warn("Data do evento não fornecida. Usando a data atual como padrão.");
             }
         } catch (DateTimeParseException e) {
-            log.error("Erro ao parsear a data do evento: {}. Usando a data atual como fallback.", eventDateTimeString, e);
             ticket.setDateTime(LocalDateTime.now());
         }
 
         ticket.setLogradouro(eventResponseDTO.getLogradouro());
         ticket.setBairro(eventResponseDTO.getBairro());
+        ticket.setLocalidade(eventResponseDTO.getLocalidade() != null ? eventResponseDTO.getLocalidade() : "Cidade não informada");
+        ticket.setUf(eventResponseDTO.getUf() != null ? eventResponseDTO.getUf() : "UF não informada");
 
-        String localidade = eventResponseDTO.getLocalidade() != null ? eventResponseDTO.getLocalidade() : "Cidade não informada";
-        String uf = eventResponseDTO.getUf() != null ? eventResponseDTO.getUf() : "UF não informada";
-        ticket.setLocalidade(localidade);
-        ticket.setUf(uf);
-
-        log.info("Cidade definida no Ticket: {}", localidade);
-        log.info("UF definida no Ticket: {}", uf);
 
         Ticket savedTicket = ticketRepository.save(ticket);
+
 
         TicketResponseDTO ticketResponseDTO = new TicketResponseDTO();
         ticketResponseDTO.setTicketId(savedTicket.getTicketId());
@@ -79,9 +78,13 @@ public class TicketService {
         ticketResponseDTO.setBrlTotalAmount(savedTicket.getBRLtotalAmoun());
         ticketResponseDTO.setUsdTotalAmount(savedTicket.getUSDtotalAmount());
 
-        log.info("TicketResponseDTO criado com sucesso: {}", ticketResponseDTO);
 
-        log.info(">>> Fim do método createTicket <<<");
+        rabbitTemplate.convertAndSend(
+                RabbitMQConfig.EXCHANGE_NAME,
+                RabbitMQConfig.ROUTING_KEY,
+                ticketResponseDTO
+        );
+
         return ticketResponseDTO;
     }
     public Ticket findById(String id) {

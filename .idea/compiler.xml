@@ -9,15 +9,8 @@
         <processorPath>
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
-        <module name="ms-ticket-manager" />
-      </profile>
-      <profile name="Annotation profile for ms-event-manager" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <processorPath>
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
-        </processorPath>
         <module name="ms-event-manager" />
+        <module name="ms-ticket-manager" />
       </profile>
     </annotationProcessing>
   </component>
