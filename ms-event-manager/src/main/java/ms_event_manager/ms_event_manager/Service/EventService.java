@@ -9,7 +9,9 @@ import ms_event_manager.ms_event_manager.Dto.EventUpdateDTO;
 import ms_event_manager.ms_event_manager.Dto.Mapper.EventMapper;
 import ms_event_manager.ms_event_manager.Repository.EventRepository;
 import ms_event_manager.ms_event_manager.Repository.ViaCepClient;
-
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,12 +20,20 @@ import java.util.stream.Collectors;
 
 @Service
 public class EventService {
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
+    @Autowired
+    private Queue eventQueue;
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
     private ViaCepClient viaCepClient;
 
 
+
+    public void sendEventToTicketService(String eventMessage) {
+        rabbitTemplate.convertAndSend(eventQueue.getName(), eventMessage);
+    }
     public EventService(EventRepository eventRepository, EventMapper eventMapper, ViaCepClient viaCepClient) {
         this.eventRepository = eventRepository;
         this.eventMapper = eventMapper;
