@@ -30,8 +30,8 @@ public class TicketService {
         ticket.setCustomerMail(ticketRequestDTO.getCustomerMail());
         ticket.setEventId(ticketRequestDTO.getEventId());
         ticket.setEventName(ticketRequestDTO.getEventName());
-        ticket.setBrlAmount(ticketRequestDTO.getBrlAmount());
-        ticket.setUsdAmount(ticketRequestDTO.getUsdAmount());
+        ticket.setBRLtotalAmoun(ticketRequestDTO.getBrlAmount());
+        ticket.setUSDtotalAmount(ticketRequestDTO.getUsdAmount());
         ticket.setStatus("concluído");
 
         String eventDateTimeString = eventResponseDTO.getDateTime();
@@ -75,8 +75,8 @@ public class TicketService {
         ticketResponseDTO.setLocalidade(savedTicket.getLocalidade());
         ticketResponseDTO.setUf(savedTicket.getUf());
         ticketResponseDTO.setStatus(savedTicket.getStatus());
-        ticketResponseDTO.setBrlTotalAmount(savedTicket.getBrlAmount());
-        ticketResponseDTO.setUsdTotalAmount(savedTicket.getUsdAmount());
+        ticketResponseDTO.setBrlTotalAmount(savedTicket.getBRLtotalAmoun());
+        ticketResponseDTO.setUsdTotalAmount(savedTicket.getUSDtotalAmount());
 
         log.info("TicketResponseDTO criado com sucesso: {}", ticketResponseDTO);
 

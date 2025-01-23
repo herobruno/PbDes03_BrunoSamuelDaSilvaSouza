@@ -38,10 +38,10 @@ public class Ticket {
     private String eventName;
 
     @Column(nullable = false)
-    private String brlAmount;
+    private String BRLtotalAmoun;
 
     @Column(nullable = false)
-    private String usdAmount;
+    private String USDtotalAmount;
 
     private String status;
 
