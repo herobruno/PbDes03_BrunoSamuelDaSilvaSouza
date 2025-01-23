@@ -12,6 +12,5 @@ public class EventResponseDTO {
     private String bairro;
     private String uf;
     private String status;
-    @JsonProperty("cidade")
-    private String cidade;
+    private String localidade;
 }

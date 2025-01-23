@@ -16,7 +16,7 @@ public class TicketResponseDTO {
         private LocalDateTime eventDateTime;
         private String logradouro;
         private String bairro;
-        private String cidade;
+        private String localidade;
         private String uf;
         private String status;
         @JsonProperty("BRLtotalAmount")
