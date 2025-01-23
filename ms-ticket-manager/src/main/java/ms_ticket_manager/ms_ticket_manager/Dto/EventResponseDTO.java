@@ -7,7 +7,7 @@ import lombok.Data;
 public class EventResponseDTO {
     private String eventId;
     private String eventName;
-    private String eventDateTime;
+    private String DateTime;
     private String logradouro;
     private String bairro;
     private String uf;

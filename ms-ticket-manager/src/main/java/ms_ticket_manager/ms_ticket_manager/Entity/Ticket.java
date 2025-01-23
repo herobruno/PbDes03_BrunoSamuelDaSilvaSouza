@@ -50,10 +50,11 @@ public class Ticket {
     private String localidade;
     private String uf;
 
-    private LocalDateTime eventDateTime;
+    private LocalDateTime dateTime;
     @Getter
     @Setter
     @javax.persistence.Id
     private Long id;
+
 
 }

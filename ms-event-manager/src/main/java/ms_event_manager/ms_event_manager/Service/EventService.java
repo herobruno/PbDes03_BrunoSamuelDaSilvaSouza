@@ -7,6 +7,7 @@ import ms_event_manager.ms_event_manager.Dto.EventRequestDTO;
 import ms_event_manager.ms_event_manager.Dto.EventResponseDTO;
 import ms_event_manager.ms_event_manager.Dto.EventUpdateDTO;
 import ms_event_manager.ms_event_manager.Dto.Mapper.EventMapper;
+import ms_event_manager.ms_event_manager.Exception.EventNotFoundException;
 import ms_event_manager.ms_event_manager.Repository.EventRepository;
 import ms_event_manager.ms_event_manager.Repository.ViaCepClient;
 import org.springframework.stereotype.Service;
@@ -48,12 +49,9 @@ public class EventService {
         return eventMapper.toResponseDTO(event);
     }
     public EventResponseDTO getEventById(String id) {
-        Optional<Event> eventOptional = eventRepository.findById(id);
-        if (eventOptional.isPresent()) {
-            return eventMapper.toResponseDTO(eventOptional.get());
-        } else {
-            throw new RuntimeException("Event not found with id: " + id);
-        }
+        return eventRepository.findById(id)
+                .map(eventMapper::toResponseDTO)
+                .orElseThrow(() -> new EventNotFoundException("Event not found with id: " + id));
     }
     public List<EventResponseDTO> getAllEvents() {
         List<Event> events = eventRepository.findAll();

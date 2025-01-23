@@ -13,7 +13,7 @@ public class TicketResponseDTO {
         private String customerMail;
         private String eventId;
         private String eventName;
-        private LocalDateTime eventDateTime;
+        private LocalDateTime DateTime;
         private String logradouro;
         private String bairro;
         private String localidade;
