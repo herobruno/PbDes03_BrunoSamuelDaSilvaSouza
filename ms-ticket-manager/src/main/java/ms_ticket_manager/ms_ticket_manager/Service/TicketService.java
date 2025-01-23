@@ -1,5 +1,6 @@
 package ms_ticket_manager.ms_ticket_manager.Service;
 
+import ms_ticket_manager.ms_ticket_manager.Exception.TicketNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,5 +83,9 @@ public class TicketService {
 
         log.info(">>> Fim do método createTicket <<<");
         return ticketResponseDTO;
+    }
+    public Ticket findById(String id) {
+        return ticketRepository.findById(id)
+                .orElseThrow(() -> new TicketNotFoundException("Ticket not found with id: " + id));
     }
 }
