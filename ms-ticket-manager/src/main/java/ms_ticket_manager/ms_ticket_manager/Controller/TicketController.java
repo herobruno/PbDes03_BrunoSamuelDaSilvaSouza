@@ -35,12 +35,14 @@ public class TicketController {
         EventResponseDTO eventResponseDTO = eventFeignClient.getEventById(ticketRequestDTO.getEventId());
         return ticketService.createTicket(ticketRequestDTO, eventResponseDTO);
     }
+
     @GetMapping("/get-ticket/{id}")
     public ResponseEntity<TicketResponseDTO> getTicketById(@PathVariable String id) {
         Ticket ticket = ticketService.findById(id);
         TicketResponseDTO responseDTO = ticketMapper.toResponseDTO(ticket);
         return ResponseEntity.ok(responseDTO);
     }
+
     @PutMapping("/update-ticket/{id}")
     public ResponseEntity<TicketResponseDTO> updateTicket(@PathVariable("id") String id, @RequestBody TicketResponseDTO ticketResponseDTO) {
         try {
@@ -66,6 +68,16 @@ public class TicketController {
 
         } catch (TicketNotFoundException ex) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/cancel-ticket/{id}")
+    public ResponseEntity<String> cancelTicket(@PathVariable("id") String id) {
+        try {
+            ticketService.cancelTicket(id);
+            return ResponseEntity.ok("Ingresso cancelado com sucesso.");
+        } catch (TicketNotFoundException ex) {
+            return new ResponseEntity<>("Ingresso não encontrado.", HttpStatus.NOT_FOUND);
         }
     }
 }
