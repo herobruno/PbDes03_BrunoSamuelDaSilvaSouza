@@ -17,4 +17,7 @@ public class EventResponseDTO {
     private String bairro;
     private String localidade;
     private String uf;
+
+
+
 }

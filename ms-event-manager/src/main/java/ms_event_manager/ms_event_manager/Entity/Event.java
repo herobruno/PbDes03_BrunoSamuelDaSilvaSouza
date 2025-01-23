@@ -45,7 +45,8 @@ public class Event {
     private String cep;
     private String logradouro;
     private String bairro;
-    private String cidade;
+    private String localidade;
     private String uf;
+
 
 }

@@ -17,7 +17,7 @@ public class EventMapper {
         dto.setCep(event.getCep());
         dto.setLogradouro(event.getLogradouro());
         dto.setBairro(event.getBairro());
-        dto.setLocalidade(event.getCidade());
+        dto.setLocalidade(event.getLocalidade());
         dto.setUf(event.getUf());
         return dto;
     }

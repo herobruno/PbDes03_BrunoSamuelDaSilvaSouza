@@ -49,7 +49,7 @@ public class EventService {
         event.setCep(eventRequestDTO.getCep());
         event.setLogradouro(endereco.getLogradouro());
         event.setBairro(endereco.getBairro());
-        event.setCidade(endereco.getLocalidade());
+        event.setLocalidade(endereco.getLocalidade());
         event.setUf(endereco.getUf());
 
 
