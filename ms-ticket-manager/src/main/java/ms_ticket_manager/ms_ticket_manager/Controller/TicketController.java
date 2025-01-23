@@ -5,9 +5,11 @@ import ms_ticket_manager.ms_ticket_manager.Dto.TicketRequestDTO;
 import ms_ticket_manager.ms_ticket_manager.Dto.TicketResponseDTO;
 import ms_ticket_manager.ms_ticket_manager.Dto.Mapper.TicketMapper;
 import ms_ticket_manager.ms_ticket_manager.Entity.Ticket;
+import ms_ticket_manager.ms_ticket_manager.Exception.TicketNotFoundException;
 import ms_ticket_manager.ms_ticket_manager.Repository.EventFeignClient;
 import ms_ticket_manager.ms_ticket_manager.Service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,5 +40,32 @@ public class TicketController {
         Ticket ticket = ticketService.findById(id);
         TicketResponseDTO responseDTO = ticketMapper.toResponseDTO(ticket);
         return ResponseEntity.ok(responseDTO);
+    }
+    @PutMapping("/update-ticket/{id}")
+    public ResponseEntity<TicketResponseDTO> updateTicket(@PathVariable("id") String id, @RequestBody TicketResponseDTO ticketResponseDTO) {
+        try {
+            Ticket updatedTicket = ticketService.updateTicket(id, ticketResponseDTO);
+
+            TicketResponseDTO responseDTO = new TicketResponseDTO();
+            responseDTO.setTicketId(updatedTicket.getTicketId());
+            responseDTO.setCustomerName(updatedTicket.getCustomerName());
+            responseDTO.setCpf(updatedTicket.getCpf());
+            responseDTO.setCustomerMail(updatedTicket.getCustomerMail());
+            responseDTO.setEventId(updatedTicket.getEventId());
+            responseDTO.setEventName(updatedTicket.getEventName());
+            responseDTO.setDateTime(updatedTicket.getDateTime());
+            responseDTO.setLogradouro(updatedTicket.getLogradouro());
+            responseDTO.setBairro(updatedTicket.getBairro());
+            responseDTO.setLocalidade(updatedTicket.getLocalidade());
+            responseDTO.setUf(updatedTicket.getUf());
+            responseDTO.setStatus(updatedTicket.getStatus());
+            responseDTO.setBrlTotalAmount(updatedTicket.getBRLtotalAmoun());
+            responseDTO.setUsdTotalAmount(updatedTicket.getUSDtotalAmount());
+
+            return ResponseEntity.ok(responseDTO);
+
+        } catch (TicketNotFoundException ex) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 }

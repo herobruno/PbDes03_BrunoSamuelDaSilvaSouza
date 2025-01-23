@@ -88,4 +88,23 @@ public class TicketService {
         return ticketRepository.findById(id)
                 .orElseThrow(() -> new TicketNotFoundException("Ticket not found with id: " + id));
     }
+    public Ticket updateTicket(String id, TicketResponseDTO ticketResponseDTO) throws TicketNotFoundException {
+        Ticket ticket = ticketRepository.findById(id)
+                .orElseThrow(() -> new TicketNotFoundException("Ticket não encontrado com o ID: " + id));
+
+        ticket.setCustomerName(ticketResponseDTO.getCustomerName());
+        ticket.setCpf(ticketResponseDTO.getCpf());
+        ticket.setCustomerMail(ticketResponseDTO.getCustomerMail());
+        ticket.setEventId(ticketResponseDTO.getEventId());
+        ticket.setEventName(ticketResponseDTO.getEventName());
+        ticket.setDateTime(ticketResponseDTO.getDateTime());
+        ticket.setLogradouro(ticketResponseDTO.getLogradouro());
+        ticket.setBairro(ticketResponseDTO.getBairro());
+        ticket.setLocalidade(ticketResponseDTO.getLocalidade());
+        ticket.setUf(ticketResponseDTO.getUf());
+        ticket.setStatus(ticketResponseDTO.getStatus());
+        ticket.setBRLtotalAmoun(ticketResponseDTO.getBrlTotalAmount());
+        ticket.setUSDtotalAmount(ticketResponseDTO.getUsdTotalAmount());
+        return ticketRepository.save(ticket);
+    }
 }
