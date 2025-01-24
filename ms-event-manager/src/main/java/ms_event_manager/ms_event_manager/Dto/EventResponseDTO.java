@@ -3,6 +3,7 @@ package ms_event_manager.ms_event_manager.Dto;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;

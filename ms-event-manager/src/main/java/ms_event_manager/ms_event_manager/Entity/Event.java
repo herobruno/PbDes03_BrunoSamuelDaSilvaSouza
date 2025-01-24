@@ -1,5 +1,6 @@
 package ms_event_manager.ms_event_manager.Entity;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -13,8 +14,12 @@ import java.util.Objects;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Document(collection = "event")
 public class Event {
+
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

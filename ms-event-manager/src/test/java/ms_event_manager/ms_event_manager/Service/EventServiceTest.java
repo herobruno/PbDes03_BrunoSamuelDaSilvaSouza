@@ -14,9 +14,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 public class EventServiceTest {
 
@@ -69,14 +73,14 @@ public class EventServiceTest {
         enderecoDTO.setBairro("Bairro Teste");
         enderecoDTO.setLocalidade("Cidade Teste");
         enderecoDTO.setUf("SP");
-        Mockito.when(viaCepClient.consultarEndereco(Mockito.anyString())).thenReturn(enderecoDTO);
+        when(viaCepClient.consultarEndereco(Mockito.anyString())).thenReturn(enderecoDTO);
 
         Event event = new Event("1", "Event", LocalDateTime.of(2025, 5, 1, 15, 0),
                 "12345-678", "Rua Teste", "Bairro Teste", "Cidade Teste", "SP");
-        Mockito.when(eventRepository.save(Mockito.any(Event.class))).thenReturn(event);
+        when(eventRepository.save(Mockito.any(Event.class))).thenReturn(event);
         EventResponseDTO eventResponseDTO = new EventResponseDTO("1", "Event", LocalDateTime.of(2025, 5, 1, 15, 0),
                 "12345-678", "Rua Teste", "Bairro Teste", "Cidade Teste", "SP");
-        Mockito.when(eventMapper.toResponseDTO(Mockito.any(Event.class))).thenReturn(eventResponseDTO);
+        when(eventMapper.toResponseDTO(Mockito.any(Event.class))).thenReturn(eventResponseDTO);
         EventRequestDTO eventRequestDTO = new EventRequestDTO("Sample Event", LocalDateTime.of(2025, 5, 1, 15, 0),
                 "12345-678");
         EventResponseDTO response = eventService.createEvent(eventRequestDTO);
@@ -95,8 +99,8 @@ public class EventServiceTest {
 
     @Test
     public void testGetEventByIdFound() {
-        Mockito.when(eventRepository.findById("1")).thenReturn(Optional.of(event));
-        Mockito.when(eventMapper.toResponseDTO(event)).thenReturn(eventResponseDTO);
+        when(eventRepository.findById("1")).thenReturn(Optional.of(event));
+        when(eventMapper.toResponseDTO(event)).thenReturn(eventResponseDTO);
 
         EventResponseDTO response = eventService.getEventById("1");
         assertNotNull(response);
@@ -106,7 +110,7 @@ public class EventServiceTest {
 
     @Test
     public void testGetEventByIdNotFound() {
-        Mockito.when(eventRepository.findById("999")).thenReturn(Optional.empty());
+        when(eventRepository.findById("999")).thenReturn(Optional.empty());
         EventNotFoundException exception = assertThrows(EventNotFoundException.class, () -> {
             eventService.getEventById("999");
         });
@@ -115,17 +119,50 @@ public class EventServiceTest {
 
     @Test
     public void testDeleteEvent() {
-        Mockito.when(eventRepository.findById("1")).thenReturn(Optional.of(event));
+        when(eventRepository.findById("1")).thenReturn(Optional.of(event));
         eventService.deleteEvent("1");
-        Mockito.verify(eventRepository, Mockito.times(1)).deleteById("1");
+        verify(eventRepository, times(1)).deleteById("1");
     }
 
     @Test
     public void testDeleteEventNotFound() {
-        Mockito.when(eventRepository.findById("999")).thenReturn(Optional.empty());
+        when(eventRepository.findById("999")).thenReturn(Optional.empty());
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
             eventService.deleteEvent("999");
         });
         assertEquals("Evento não encontrado com o ID: 999", exception.getMessage());
+    }
+    @Test
+    void testGetAllEventsSorted() {
+        List<Event> mockEvents = new ArrayList<>(List.of(
+                Event.builder()
+                        .id("1")
+                        .eventName("Event Z")
+                        .dateTime(LocalDateTime.of(2025, 6, 2, 14, 30))
+                        .cep("12345")
+                        .build(),
+                Event.builder()
+                        .id("2")
+                        .eventName("Event A")
+                        .dateTime(LocalDateTime.of(2025, 6, 1, 16, 0))
+                        .cep("67890")
+                        .build()
+        ));
+
+        when(eventRepository.findAll()).thenReturn(mockEvents);
+
+        when(eventMapper.toResponseDTO(mockEvents.get(0))).thenReturn(
+                new EventResponseDTO("1", "Event Z", LocalDateTime.of(2025, 6, 2, 14, 30), "12345", null, null, null, null)
+        );
+        when(eventMapper.toResponseDTO(mockEvents.get(1))).thenReturn(
+                new EventResponseDTO("2", "Event A", LocalDateTime.of(2025, 6, 1, 16, 0), "67890", null, null, null, null)
+        );
+        List<EventResponseDTO> result = eventService.getAllEventsSorted();
+
+        assertEquals(2, result.size());
+        assertEquals("Event A", result.get(0).getEventName());
+        assertEquals("Event Z", result.get(1).getEventName());
+        verify(eventRepository, times(1)).findAll();
+        verify(eventMapper, times(2)).toResponseDTO(any(Event.class));
     }
 }
