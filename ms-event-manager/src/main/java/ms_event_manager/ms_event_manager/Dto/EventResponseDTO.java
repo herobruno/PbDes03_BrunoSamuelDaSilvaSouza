@@ -19,5 +19,18 @@ public class EventResponseDTO {
     private String uf;
 
 
+    public EventResponseDTO(String id, String eventName, LocalDateTime dateTime, String cep, String logradouro, String bairro, String localidade, String uf) {
+        this.id = id;
+        this.eventName = eventName;
+        this.dateTime = dateTime;
+        this.cep = cep;
+        this.logradouro = logradouro;
+        this.bairro = bairro;
+        this.localidade = localidade;
+        this.uf = uf;
+    }
 
+    public EventResponseDTO() {
+
+    }
 }

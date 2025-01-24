@@ -48,5 +48,4 @@ public class Event {
     private String localidade;
     private String uf;
 
-
 }

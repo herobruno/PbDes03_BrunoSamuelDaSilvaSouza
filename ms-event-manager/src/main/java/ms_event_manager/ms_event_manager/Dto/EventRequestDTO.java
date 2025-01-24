@@ -9,4 +9,14 @@ public class EventRequestDTO {
     private String eventName;
     private LocalDateTime dateTime;
     private String cep;
+
+    public EventRequestDTO(String eventName, LocalDateTime dateTime, String cep) {
+        this.eventName = eventName;
+        this.dateTime = dateTime;
+        this.cep = cep;
+    }
+
+    public EventRequestDTO() {
+
+    }
 }
