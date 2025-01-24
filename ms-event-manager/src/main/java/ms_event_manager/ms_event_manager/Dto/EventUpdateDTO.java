@@ -10,4 +10,13 @@ public class EventUpdateDTO {
     private String eventName;
     private LocalDateTime dateTime;
     private String cep;
+
+    public EventUpdateDTO(String eventName, LocalDateTime dateTime, String cep) {
+        this.eventName = eventName;
+        this.dateTime = dateTime;
+        this.cep = cep;
+    }
+
+    public EventUpdateDTO() {
+    }
 }
