@@ -88,7 +88,10 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 			<exclusions>
-				<!-- Exclude JUnit 4 to ensure JUnit 5 is used -->
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
 				<exclusion>
 					<groupId>junit</groupId>
 					<artifactId>junit</artifactId>
