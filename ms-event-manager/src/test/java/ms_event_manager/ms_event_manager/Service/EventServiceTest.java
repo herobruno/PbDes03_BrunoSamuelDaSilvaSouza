@@ -12,27 +12,22 @@ import ms_event_manager.ms_event_manager.Dto.Mapper.EventMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class EventServiceTest {
-
     @Mock
     private EventRepository eventRepository;
-
     @Mock
     private EventMapper eventMapper;
 
     @Mock
     private ViaCepClient viaCepClient;
-
     @InjectMocks
     private EventService eventService;
 
@@ -96,7 +91,6 @@ public class EventServiceTest {
         assertEquals("12345-678", response.getCep());
     }
 
-
     @Test
     public void testGetEventByIdFound() {
         when(eventRepository.findById("1")).thenReturn(Optional.of(event));
@@ -132,6 +126,7 @@ public class EventServiceTest {
         });
         assertEquals("Evento não encontrado com o ID: 999", exception.getMessage());
     }
+
     @Test
     void testGetAllEventsSorted() {
         List<Event> mockEvents = new ArrayList<>(List.of(
@@ -164,5 +159,77 @@ public class EventServiceTest {
         assertEquals("Event Z", result.get(1).getEventName());
         verify(eventRepository, times(1)).findAll();
         verify(eventMapper, times(2)).toResponseDTO(any(Event.class));
+    }
+
+    @Test
+    public void testUpdateEvent_EventNotFound() {
+        String eventId = "1";
+        EventUpdateDTO eventUpdateDTO = new EventUpdateDTO("Updated Event", "2025-01-25T12:00", "12345");
+
+
+        when(eventRepository.findById(eventId)).thenReturn(Optional.empty());
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            eventService.updateEvent(eventId, eventUpdateDTO);
+        });
+        assertEquals("Evento não encontrado com o ID: 1", exception.getMessage());
+    }
+    @Test
+    public void testGetAllEvents() {
+
+        Event event1 = new Event();
+        event1.setEventName("Event 1");
+        event1.setDateTime(LocalDateTime.parse("2025-02-01T14:00"));
+        event1.setCep("12345");
+        Event event2 = new Event();
+        event2.setEventName("Event 2");
+        event2.setDateTime(LocalDateTime.parse("2025-03-01T15:00"));
+        event2.setCep("67890");
+        when(eventRepository.findAll()).thenReturn(Arrays.asList(event1, event2));
+
+        EventResponseDTO dto1 = new EventResponseDTO("1", "Event 1", LocalDateTime.parse("2025-02-01T14:00"), "12345", "Rua A", "Bairro X", "Cidade Y", "UF Z");
+        EventResponseDTO dto2 = new EventResponseDTO("2", "Event 2", LocalDateTime.parse("2025-03-01T15:00"), "67890", "Rua B", "Bairro Y", "Cidade Z", "UF W");
+        when(eventMapper.toResponseDTO(event1)).thenReturn(dto1);
+        when(eventMapper.toResponseDTO(event2)).thenReturn(dto2);
+
+        List<EventResponseDTO> eventsResponse = eventService.getAllEvents();
+
+        assertNotNull(eventsResponse);
+        assertEquals(2, eventsResponse.size());
+
+        assertEquals("Event 1", eventsResponse.get(0).getEventName());
+        assertEquals("2025-02-01T14:00", eventsResponse.get(0).getDateTime().toString());
+        assertEquals("12345", eventsResponse.get(0).getCep());
+
+        assertEquals("Event 2", eventsResponse.get(1).getEventName());
+        assertEquals("2025-03-01T15:00", eventsResponse.get(1).getDateTime().toString());
+        assertEquals("67890", eventsResponse.get(1).getCep());
+    }
+    @Test
+    public void testUpdateEvent() {
+        String eventId = "123";
+        Event existingEvent = new Event();
+        existingEvent.setId(eventId);
+        existingEvent.setEventName("Evento Original");
+        existingEvent.setDateTime(LocalDateTime.parse("2025-01-01T10:00"));
+        existingEvent.setCep("12345");
+
+        EventUpdateDTO updateDTO = new EventUpdateDTO();
+        updateDTO.setEventName("Evento Atualizado");
+        updateDTO.setDateTime(LocalDateTime.parse("2025-02-01T14:00"));
+
+        when(eventRepository.findById(eventId)).thenReturn(Optional.of(existingEvent));
+        when(eventRepository.save(any(Event.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(eventMapper.toResponseDTO(any(Event.class))).thenReturn(
+                new EventResponseDTO(eventId, "Evento Atualizado", LocalDateTime.parse("2025-02-01T14:00"), "12345", null, null, null, null)
+        );
+
+        EventResponseDTO responseDTO = eventService.updateEvent(eventId, updateDTO);
+
+        assertNotNull(responseDTO);
+        assertEquals("Evento Atualizado", responseDTO.getEventName());
+        assertEquals("2025-02-01T14:00", responseDTO.getDateTime().toString());
+        verify(eventRepository).save(any(Event.class));
+        verify(eventMapper).toResponseDTO(any(Event.class));
     }
 }

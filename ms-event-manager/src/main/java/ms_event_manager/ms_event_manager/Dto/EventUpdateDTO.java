@@ -19,4 +19,7 @@ public class EventUpdateDTO {
 
     public EventUpdateDTO() {
     }
+
+    public EventUpdateDTO(String updatedEvent, String s, String number) {
+    }
 }

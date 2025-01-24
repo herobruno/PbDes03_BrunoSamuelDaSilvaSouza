@@ -36,4 +36,7 @@ public class EventResponseDTO {
     public EventResponseDTO() {
 
     }
+
+    public EventResponseDTO(String updatedEvent, String s, String number) {
+    }
 }
