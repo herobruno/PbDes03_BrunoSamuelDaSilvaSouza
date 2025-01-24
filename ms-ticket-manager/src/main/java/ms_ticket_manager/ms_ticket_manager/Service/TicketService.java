@@ -110,10 +110,11 @@ public class TicketService {
         ticket.setUSDtotalAmount(ticketResponseDTO.getUsdTotalAmount());
         return ticketRepository.save(ticket);
     }
-    public void cancelTicket(String id) throws TicketNotFoundException {
+    public Ticket cancelTicket(String id) throws TicketNotFoundException {
         Ticket ticket = ticketRepository.findById(id)
                 .orElseThrow(() -> new TicketNotFoundException("Ticket não encontrado com o ID: " + id));
         ticket.setStatus("cancelado");
         ticketRepository.save(ticket);
+        return ticket;
     }
 }

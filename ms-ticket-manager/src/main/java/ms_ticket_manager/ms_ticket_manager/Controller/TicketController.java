@@ -31,9 +31,10 @@ public class TicketController {
     }
 
     @PostMapping("/tickets")
-    public TicketResponseDTO createTicket(@RequestBody TicketRequestDTO ticketRequestDTO) {
+    public ResponseEntity<TicketResponseDTO> createTicket(@RequestBody TicketRequestDTO ticketRequestDTO) {
         EventResponseDTO eventResponseDTO = eventFeignClient.getEventById(ticketRequestDTO.getEventId());
-        return ticketService.createTicket(ticketRequestDTO, eventResponseDTO);
+        TicketResponseDTO ticketResponseDTO = ticketService.createTicket(ticketRequestDTO, eventResponseDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ticketResponseDTO);
     }
 
     @GetMapping("/get-ticket/{id}")
