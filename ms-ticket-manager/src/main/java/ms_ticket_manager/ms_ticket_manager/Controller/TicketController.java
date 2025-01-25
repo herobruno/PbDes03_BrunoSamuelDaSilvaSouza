@@ -91,4 +91,13 @@ public class TicketController {
             return new ResponseEntity<>("Nenhum ingresso encontrado para o CPF informado: " + cpf, HttpStatus.NOT_FOUND);
         }
     }
+    @GetMapping("/get-ticket-by-cpf/{cpf}")
+    public ResponseEntity<List<TicketResponseDTO>> getTicketsByCpf(@PathVariable("cpf") String cpf) {
+        try {
+            List<TicketResponseDTO> ticketResponseDTOs = ticketService.getTicketsByCpf(cpf);
+            return ResponseEntity.ok(ticketResponseDTOs);
+        } catch (TicketNotFoundException ex) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }
