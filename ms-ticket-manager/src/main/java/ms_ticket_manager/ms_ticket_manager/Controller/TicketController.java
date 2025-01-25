@@ -100,4 +100,13 @@ public class TicketController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    @GetMapping("/check-tickets-by-event/{eventId}")
+    public ResponseEntity<List<TicketResponseDTO>> getTicketsByEventId(@PathVariable("eventId") String eventId) {
+        try {
+            List<TicketResponseDTO> ticketResponseDTOs = ticketService.getTicketsByEventId(eventId);
+            return ResponseEntity.ok(ticketResponseDTOs);
+        } catch (TicketNotFoundException ex) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }
