@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+import java.util.List;
 
 
 @RestController
@@ -30,7 +30,7 @@ public class TicketController {
         this.ticketMapper = ticketMapper;
     }
 
-    @PostMapping("/tickets")
+    @PostMapping("/create-ticket")
     public ResponseEntity<TicketResponseDTO> createTicket(@RequestBody TicketRequestDTO ticketRequestDTO) {
         EventResponseDTO eventResponseDTO = eventFeignClient.getEventById(ticketRequestDTO.getEventId());
         TicketResponseDTO ticketResponseDTO = ticketService.createTicket(ticketRequestDTO, eventResponseDTO);
@@ -81,4 +81,5 @@ public class TicketController {
             return new ResponseEntity<>("Ingresso não encontrado.", HttpStatus.NOT_FOUND);
         }
     }
+
 }

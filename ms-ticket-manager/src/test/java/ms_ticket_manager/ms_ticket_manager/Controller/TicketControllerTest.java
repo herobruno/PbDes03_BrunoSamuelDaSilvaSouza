@@ -63,7 +63,7 @@ public class TicketControllerTest {
                 .thenReturn(ticketResponseDTO);
         when(eventFeignClient.getEventById(anyString())).thenReturn(new EventResponseDTO());
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/tickets")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/create-ticket")
                         .contentType("application/json")
                         .content("{\"customerName\":\"John Doe\",\"cpf\":\"12345678900\",\"customerMail\":\"johndoe@example.com\",\"eventId\":\"event1\",\"eventName\":\"Event Name\",\"status\":\"active\",\"BRLamount\":\"100.00\"}"))
                 .andExpect(status().isCreated())
