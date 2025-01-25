@@ -118,5 +118,12 @@ public class TicketService {
         ticketRepository.save(ticket);
         return ticket;
     }
-
+    public void cancelTicketsByCpf(String cpf) throws TicketNotFoundException {
+        List<Ticket> tickets = ticketRepository.findByCpf(cpf);
+        if (tickets.isEmpty()) {
+            throw new TicketNotFoundException("Nenhum ingresso encontrado para o CPF: " + cpf);
+        }
+        tickets.forEach(ticket -> ticket.setStatus("cancelado"));
+        ticketRepository.saveAll(tickets);
+    }
 }

@@ -82,4 +82,13 @@ public class TicketController {
         }
     }
 
+    @DeleteMapping("/cancel-ticket/cpf/{cpf}")
+    public ResponseEntity<String> cancelTicketsByCpf(@PathVariable("cpf") String cpf) {
+        try {
+            ticketService.cancelTicketsByCpf(cpf);
+            return ResponseEntity.ok("Todos os ingressos associados ao CPF " + cpf + " foram cancelados com sucesso.");
+        } catch (TicketNotFoundException ex) {
+            return new ResponseEntity<>("Nenhum ingresso encontrado para o CPF informado: " + cpf, HttpStatus.NOT_FOUND);
+        }
+    }
 }
