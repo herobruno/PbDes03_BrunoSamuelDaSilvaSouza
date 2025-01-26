@@ -9,8 +9,10 @@ import ms_event_manager.ms_event_manager.Dto.EventUpdateDTO;
 import ms_event_manager.ms_event_manager.Dto.Mapper.EventMapper;
 import ms_event_manager.ms_event_manager.Exception.EventNotFoundException;
 import ms_event_manager.ms_event_manager.Repository.EventRepository;
+import ms_event_manager.ms_event_manager.Repository.IdCounterRepository;
 import ms_event_manager.ms_event_manager.Repository.TicketManagerClient;
 import ms_event_manager.ms_event_manager.Repository.ViaCepClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -22,14 +24,15 @@ import java.util.stream.Collectors;
 @Service
 public class EventService {
 
-
+    private final IdCounterService idCounterService;
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
-    private ViaCepClient viaCepClient;
+    private final ViaCepClient viaCepClient;
     private final TicketManagerClient ticketManagerClient;
 
 
-    public EventService(EventRepository eventRepository, EventMapper eventMapper, ViaCepClient viaCepClient, TicketManagerClient ticketManagerClient) {
+    public EventService(IdCounterService idCounterService, EventRepository eventRepository, EventMapper eventMapper, ViaCepClient viaCepClient, TicketManagerClient ticketManagerClient) {
+        this.idCounterService = idCounterService;
         this.eventRepository = eventRepository;
         this.eventMapper = eventMapper;
         this.viaCepClient = viaCepClient;
@@ -48,6 +51,8 @@ public class EventService {
         event.setLocalidade(endereco.getLocalidade());
         event.setUf(endereco.getUf());
 
+        String generatedEventId = idCounterService.generateNextEventId();
+        event.setId(generatedEventId);
 
         eventRepository.save(event);
 
