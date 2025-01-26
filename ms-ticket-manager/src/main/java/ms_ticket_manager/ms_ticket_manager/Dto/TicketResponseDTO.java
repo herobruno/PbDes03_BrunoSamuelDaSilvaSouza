@@ -2,7 +2,6 @@ package ms_ticket_manager.ms_ticket_manager.Dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -11,7 +10,6 @@ import java.time.LocalDateTime;
 public class TicketResponseDTO implements Serializable {
         @Serial
         private static final long serialVersionUID = 1L;
-
         private String ticketId;
         private String customerName;
         private String cpf;
@@ -26,10 +24,8 @@ public class TicketResponseDTO implements Serializable {
         private String status;
         @JsonProperty("BRLtotalAmount")
         private String brlTotalAmount;
-
         @JsonProperty("USDtotalAmount")
         private String usdTotalAmount;
-
 }
 
 

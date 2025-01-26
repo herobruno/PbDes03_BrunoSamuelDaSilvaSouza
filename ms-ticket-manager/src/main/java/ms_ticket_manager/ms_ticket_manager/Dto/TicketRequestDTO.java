@@ -12,8 +12,10 @@ public class TicketRequestDTO {
         private String eventId;
         private String eventName;
         private String status;
-    @JsonProperty("BRLamount")
-    private String brlAmount;
+        @JsonProperty("BRLamount")
+        private String brlAmount;
+        @JsonProperty("USDamount")
+        private String usdAmount;
 
     @Override
     public String toString() {
@@ -28,10 +30,6 @@ public class TicketRequestDTO {
                 ", usdAmount='" + usdAmount + '\'' +
                 '}';
     }
-
-    @JsonProperty("USDamount")
-    private String usdAmount;
-
 }
 
 

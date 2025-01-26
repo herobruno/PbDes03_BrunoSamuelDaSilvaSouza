@@ -61,7 +61,7 @@ public class TicketRepositoryTest {
         ticket.setUSDtotalAmount("30.00");
         ticket.setStatus("PENDING");
 
-        doNothing().when(ticketRepository).delete(ticket);  // Mock do método delete
+        doNothing().when(ticketRepository).delete(ticket);
 
         ticketRepository.delete(ticket);
 

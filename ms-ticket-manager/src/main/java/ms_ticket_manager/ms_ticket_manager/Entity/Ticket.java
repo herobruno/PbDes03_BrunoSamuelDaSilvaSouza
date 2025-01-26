@@ -1,12 +1,8 @@
 package ms_ticket_manager.ms_ticket_manager.Entity;
 
-
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +13,6 @@ import java.time.LocalDateTime;
 @Document(collection = "ticket")
 @Data
 public class Ticket {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String ticketId;
@@ -46,16 +41,15 @@ public class Ticket {
     private String status;
 
     private String logradouro;
+
     private String bairro;
+
     private String localidade;
+
     private String uf;
 
     private LocalDateTime dateTime;
-    @Getter
-    @Setter
+
     @javax.persistence.Id
     private Long id;
-
-
-
 }

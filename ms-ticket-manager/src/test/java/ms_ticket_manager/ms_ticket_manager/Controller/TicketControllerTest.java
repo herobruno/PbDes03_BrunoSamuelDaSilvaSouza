@@ -22,9 +22,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -93,7 +96,7 @@ public class TicketControllerTest {
 
         when(ticketService.updateTicket(anyString(), any(TicketResponseDTO.class)))
                 .thenReturn(updatedTicket);
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/update-ticket/ticket123")
+        mockMvc.perform(put("/api/update-ticket/ticket123")
                         .contentType("application/json")
                         .content("{\"ticketId\":\"ticket123\",\"customerName\":\"John Doe\"}"))
                 .andExpect(status().isOk())
@@ -142,5 +145,25 @@ public class TicketControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.ticketId").value("1"))
                 .andExpect(jsonPath("$.customerName").value("John Doe"));
+    }
+    @Test
+    void updateTicket_WhenTicketNotFound_ShouldReturn404() throws Exception {
+        String ticketId = "1";
+        TicketResponseDTO ticketResponseDTO = new TicketResponseDTO();
+
+        doThrow(new TicketNotFoundException("Ticket not found with id: " + ticketId))
+                .when(ticketService).updateTicket(ticketId, ticketResponseDTO);
+        mockMvc.perform(put("/update-ticket/{id}", ticketId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"ticketId\":\"1\",\"customerName\":\"John Doe\"}"))
+                .andExpect(status().isNotFound());
+    }
+    @Test
+    void getTicketsByCpf_WhenNoTicketsFound_ShouldReturn404() throws Exception {
+        String cpf = "12345678900";
+        when(ticketService.getTicketsByCpf(cpf)).thenThrow(new TicketNotFoundException("Nenhum ingresso encontrado para o CPF informado: " + cpf));
+        mockMvc.perform(get("/get-ticket-by-cpf/{cpf}", cpf))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string(""));
     }
 }

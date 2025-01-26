@@ -7,7 +7,6 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableFeignClients
 @SpringBootApplication
 public class MsTicketManagerApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(MsTicketManagerApplication.class, args);
 	}

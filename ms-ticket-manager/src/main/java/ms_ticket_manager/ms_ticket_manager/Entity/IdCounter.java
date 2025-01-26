@@ -10,6 +10,4 @@ public class IdCounter {
     @Id
     private String id;
     private Long counter;
-
-    // Getters e Setters
 }

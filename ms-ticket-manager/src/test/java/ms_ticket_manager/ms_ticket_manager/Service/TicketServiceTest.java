@@ -8,8 +8,6 @@ import ms_ticket_manager.ms_ticket_manager.Entity.Ticket;
 import ms_ticket_manager.ms_ticket_manager.Repository.TicketRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -19,26 +17,16 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.ArrayList;
 @SpringBootTest
 public class TicketServiceTest {
-
     @Autowired
     private TicketService ticketService;
-
     @MockBean
     private TicketRepository ticketRepository;
-
     @Mock
     private RabbitTemplate rabbitTemplate;
-
-
-
     private TicketRequestDTO ticketRequestDTO;
     private EventResponseDTO eventResponseDTO;
 
@@ -46,7 +34,6 @@ public class TicketServiceTest {
     public void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        // Inicialização dos objetos TicketRequestDTO e EventResponseDTO
         ticketRequestDTO = new TicketRequestDTO();
         ticketRequestDTO.setCustomerName("John Doe");
         ticketRequestDTO.setCpf("12345678901");
@@ -63,7 +50,6 @@ public class TicketServiceTest {
         eventResponseDTO.setLocalidade("São Paulo");
         eventResponseDTO.setUf("SP");
     }
-
     @Test
     public void testCreateTicket() {
         Ticket savedTicket = new Ticket();
@@ -99,7 +85,6 @@ public class TicketServiceTest {
         when(ticketRepository.findById(invalidTicketId)).thenReturn(java.util.Optional.empty());
         assertThrows(TicketNotFoundException.class, () -> ticketService.findById(invalidTicketId));
     }
-
     @Test
     public void testFindById_ShouldReturnTicket() {
         Ticket ticket = new Ticket();
@@ -112,7 +97,6 @@ public class TicketServiceTest {
         assertNotNull(foundTicket);
         assertEquals("1", foundTicket.getTicketId());
     }
-
     @Test
     public void testUpdateTicket_ShouldUpdateTicket() {
         String ticketId = "1";
@@ -134,7 +118,6 @@ public class TicketServiceTest {
         assertEquals("Updated Name", updatedTicket.getCustomerName());
         assertEquals("98765432100", updatedTicket.getCpf());
     }
-
     @Test
     public void testCancelTicket_ShouldCancelTicket() {
         String ticketId = "1";
@@ -147,9 +130,31 @@ public class TicketServiceTest {
         when(ticketRepository.save(Mockito.any(Ticket.class))).thenReturn(ticket);
 
         Ticket canceledTicket = ticketService.cancelTicket(ticketId);
-
         assertNotNull(canceledTicket);
         assertEquals("cancelado", canceledTicket.getStatus());
+    }
+    @Test
+    void cancelTicketsByCpf_ShouldThrowException_WhenNoTicketsFound() {
+        String cpf = "12345678900";
+        when(ticketRepository.findByCpf(cpf)).thenReturn(new ArrayList<>());
+        assertThrows(TicketNotFoundException.class, () -> ticketService.cancelTicketsByCpf(cpf));
+        verify(ticketRepository, never()).saveAll(anyList());
+    }
+    @Test
+    void getTicketsByCpf_ShouldThrowException_WhenNoTicketsFound() {
+        String cpf = "12345678900";
+        when(ticketRepository.findByCpf(cpf)).thenReturn(new ArrayList<>());
+        TicketNotFoundException exception = assertThrows(TicketNotFoundException.class,
+                () -> ticketService.getTicketsByCpf(cpf));
+        assertEquals("Nenhum ingresso encontrado para o CPF informado: " + cpf, exception.getMessage());
+    }
+    @Test
+    void getTicketsByEventId_ShouldThrowException_WhenNoTicketsFound() {
+        String eventId = "E1";
+        when(ticketRepository.findByEventId(eventId)).thenReturn(new ArrayList<>());
+        TicketNotFoundException exception = assertThrows(TicketNotFoundException.class,
+                () -> ticketService.getTicketsByEventId(eventId));
+        assertEquals("Nenhum ingresso encontrado para o evento com ID: " + eventId, exception.getMessage());
     }
 }
 
