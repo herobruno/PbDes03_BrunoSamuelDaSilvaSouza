@@ -8,7 +8,6 @@ import ms_event_manager.ms_event_manager.Service.EventService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 
@@ -56,7 +55,7 @@ public class EventController {
             eventService.deleteEvent(id);
             return ResponseEntity.ok("Evento excluído com sucesso.");
         } catch (RuntimeException e) {
-            return ResponseEntity.status(404).body("Erro: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Ingressos vendidos para este evento");
         }
     }
 }

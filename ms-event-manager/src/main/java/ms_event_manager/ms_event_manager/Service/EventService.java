@@ -9,8 +9,11 @@ import ms_event_manager.ms_event_manager.Dto.EventUpdateDTO;
 import ms_event_manager.ms_event_manager.Dto.Mapper.EventMapper;
 import ms_event_manager.ms_event_manager.Exception.EventNotFoundException;
 import ms_event_manager.ms_event_manager.Repository.EventRepository;
+import ms_event_manager.ms_event_manager.Repository.TicketManagerClient;
 import ms_event_manager.ms_event_manager.Repository.ViaCepClient;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,12 +26,14 @@ public class EventService {
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
     private ViaCepClient viaCepClient;
+    private final TicketManagerClient ticketManagerClient;
 
 
-    public EventService(EventRepository eventRepository, EventMapper eventMapper, ViaCepClient viaCepClient) {
+    public EventService(EventRepository eventRepository, EventMapper eventMapper, ViaCepClient viaCepClient, TicketManagerClient ticketManagerClient) {
         this.eventRepository = eventRepository;
         this.eventMapper = eventMapper;
         this.viaCepClient = viaCepClient;
+        this.ticketManagerClient = ticketManagerClient;
     }
 
     public EventResponseDTO createEvent(EventRequestDTO eventRequestDTO) {
@@ -87,15 +92,17 @@ public class EventService {
         if (eventUpdateDTO.getCep() != null) {
             event.setCep(eventUpdateDTO.getCep());
         }
-
         Event updatedEvent = eventRepository.save(event);
-
         return eventMapper.toResponseDTO(updatedEvent);
     }
     public void deleteEvent(String id) {
         Optional<Event> eventOptional = eventRepository.findById(id);
         if (eventOptional.isEmpty()) {
             throw new RuntimeException("Evento não encontrado com o ID: " + id);
+        }
+        boolean hasTickets = ticketManagerClient.checkTicketsByEvent(id);
+        if (hasTickets) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Ingressos vendidos para este evento");
         }
         eventRepository.deleteById(id);
     }
