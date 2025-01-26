@@ -112,10 +112,11 @@ class EventControllerTest {
                 .andExpect(content().string("Evento excluído com sucesso."));
     }
     @Test
-    void testDeleteEventNotFound() throws Exception {
-        doThrow(new RuntimeException("Evento não encontrado")).when(eventService).deleteEvent("1");
+    void testDeleteEventConflict() throws Exception {
+        doThrow(new RuntimeException("Evento em conflito ao ser excluído")).when(eventService).deleteEvent("1");
+
         mockMvc.perform(delete("/api/delete-event/1"))
-                .andExpect(status().isNotFound())
-                .andExpect(content().string("Erro: Evento não encontrado"));
+                .andExpect(status().isConflict())
+                .andExpect(content().string("Ingressos vendidos para este evento"));
     }
 }

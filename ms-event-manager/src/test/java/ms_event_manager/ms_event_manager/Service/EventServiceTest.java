@@ -7,11 +7,15 @@ import ms_event_manager.ms_event_manager.Dto.EnderecoDTO;
 import ms_event_manager.ms_event_manager.Entity.Event;
 import ms_event_manager.ms_event_manager.Exception.EventNotFoundException;
 import ms_event_manager.ms_event_manager.Repository.EventRepository;
+import ms_event_manager.ms_event_manager.Repository.TicketManagerClient;
 import ms_event_manager.ms_event_manager.Repository.ViaCepClient;
 import ms_event_manager.ms_event_manager.Dto.Mapper.EventMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,8 +28,11 @@ public class EventServiceTest {
     @Mock
     private EventRepository eventRepository;
     @Mock
+    private IdCounterService idCounterService;  // Mock para o serviço de contador
+    @Mock
     private EventMapper eventMapper;
-
+    @Mock
+    private TicketManagerClient ticketManagerClient;
     @Mock
     private ViaCepClient viaCepClient;
     @InjectMocks
@@ -63,6 +70,8 @@ public class EventServiceTest {
 
     @Test
     public void testCreateEvent() {
+        when(idCounterService.generateNextEventId()).thenReturn("1");
+
         EnderecoDTO enderecoDTO = new EnderecoDTO();
         enderecoDTO.setLogradouro("Rua Teste");
         enderecoDTO.setBairro("Bairro Teste");
@@ -73,9 +82,11 @@ public class EventServiceTest {
         Event event = new Event("1", "Event", LocalDateTime.of(2025, 5, 1, 15, 0),
                 "12345-678", "Rua Teste", "Bairro Teste", "Cidade Teste", "SP");
         when(eventRepository.save(Mockito.any(Event.class))).thenReturn(event);
+
         EventResponseDTO eventResponseDTO = new EventResponseDTO("1", "Event", LocalDateTime.of(2025, 5, 1, 15, 0),
                 "12345-678", "Rua Teste", "Bairro Teste", "Cidade Teste", "SP");
         when(eventMapper.toResponseDTO(Mockito.any(Event.class))).thenReturn(eventResponseDTO);
+
         EventRequestDTO eventRequestDTO = new EventRequestDTO("Sample Event", LocalDateTime.of(2025, 5, 1, 15, 0),
                 "12345-678");
         EventResponseDTO response = eventService.createEvent(eventRequestDTO);
@@ -109,13 +120,6 @@ public class EventServiceTest {
             eventService.getEventById("999");
         });
         assertEquals("Event not found with id: 999", exception.getMessage());
-    }
-
-    @Test
-    public void testDeleteEvent() {
-        when(eventRepository.findById("1")).thenReturn(Optional.of(event));
-        eventService.deleteEvent("1");
-        verify(eventRepository, times(1)).deleteById("1");
     }
 
     @Test
@@ -231,5 +235,39 @@ public class EventServiceTest {
         assertEquals("2025-02-01T14:00", responseDTO.getDateTime().toString());
         verify(eventRepository).save(any(Event.class));
         verify(eventMapper).toResponseDTO(any(Event.class));
+    }
+    @Test
+    void deleteEvent_WhenEventNotFound_ThrowsRuntimeException() {
+        String eventId = "1";
+        when(eventRepository.findById(eventId)).thenReturn(Optional.empty());
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> eventService.deleteEvent(eventId));
+        assertEquals("Evento não encontrado com o ID: 1", exception.getMessage());
+
+        verify(ticketManagerClient, never()).checkTicketsByEvent(anyString());
+        verify(eventRepository, never()).deleteById(anyString());
+    }
+
+    @Test
+    void deleteEvent_WhenTicketsExist_ThrowsConflictException() {
+        String eventId = "1";
+        Event event = new Event();
+        when(eventRepository.findById(eventId)).thenReturn(Optional.of(event));
+
+        when(ticketManagerClient.checkTicketsByEvent(eventId)).thenReturn(true);
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> eventService.deleteEvent(eventId));
+        assertEquals(HttpStatus.CONFLICT, exception.getStatusCode());
+        assertEquals("Ingressos vendidos para este evento", exception.getReason());
+        verify(eventRepository, never()).deleteById(anyString());
+    }
+
+    @Test
+    void deleteEvent_WhenNoTicketsExist_DeletesEvent() {
+        String eventId = "1";
+        Event event = new Event();
+        when(eventRepository.findById(eventId)).thenReturn(Optional.of(event));
+        when(ticketManagerClient.checkTicketsByEvent(eventId)).thenReturn(false);
+        eventService.deleteEvent(eventId);
+        verify(eventRepository).deleteById(eventId);
     }
 }
