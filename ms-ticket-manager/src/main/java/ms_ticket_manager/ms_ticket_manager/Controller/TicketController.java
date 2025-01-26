@@ -7,6 +7,7 @@ import ms_ticket_manager.ms_ticket_manager.Dto.Mapper.TicketMapper;
 import ms_ticket_manager.ms_ticket_manager.Entity.Ticket;
 import ms_ticket_manager.ms_ticket_manager.Exception.TicketNotFoundException;
 import ms_ticket_manager.ms_ticket_manager.Repository.EventFeignClient;
+import ms_ticket_manager.ms_ticket_manager.Service.TicketIdGeneratorService;
 import ms_ticket_manager.ms_ticket_manager.Service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,8 @@ public class TicketController {
     private final TicketMapper ticketMapper;
     @Autowired
     private EventFeignClient eventFeignClient;
+    @Autowired
+    private TicketIdGeneratorService ticketIdGeneratorService;
 
     public TicketController(TicketMapper ticketMapper) {
         this.ticketMapper = ticketMapper;

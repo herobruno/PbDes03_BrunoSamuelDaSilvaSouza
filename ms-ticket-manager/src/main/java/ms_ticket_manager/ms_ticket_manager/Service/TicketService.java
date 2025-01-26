@@ -30,9 +30,17 @@ public class TicketService {
     @Autowired
     private TicketRepository ticketRepository;
 
+    @Autowired
+    private TicketIdGeneratorService ticketIdGeneratorService;
+
     public TicketResponseDTO createTicket(TicketRequestDTO ticketRequestDTO, EventResponseDTO eventResponseDTO) {
 
+        // Gerar o ID sequencial para o novo ticket
+        String generatedTicketId = ticketIdGeneratorService.generateNextTicketId();  // Gerar o ID sequencial
+
+        // Criar o ticket com os dados do request
         Ticket ticket = new Ticket();
+        ticket.setTicketId(generatedTicketId);  // Definir o ID sequencial
         ticket.setCustomerName(ticketRequestDTO.getCustomerName());
         ticket.setCpf(ticketRequestDTO.getCpf());
         ticket.setCustomerMail(ticketRequestDTO.getCustomerMail());
@@ -42,7 +50,7 @@ public class TicketService {
         ticket.setUSDtotalAmount(ticketRequestDTO.getUsdAmount());
         ticket.setStatus("concluído");
 
-
+        // Converter e definir o horário do evento
         String eventDateTimeString = eventResponseDTO.getDateTime();
         try {
             if (eventDateTimeString != null && !eventDateTimeString.isEmpty()) {
@@ -55,15 +63,16 @@ public class TicketService {
             ticket.setDateTime(LocalDateTime.now());
         }
 
+        // Definir o endereço do evento
         ticket.setLogradouro(eventResponseDTO.getLogradouro());
         ticket.setBairro(eventResponseDTO.getBairro());
         ticket.setLocalidade(eventResponseDTO.getLocalidade() != null ? eventResponseDTO.getLocalidade() : "Cidade não informada");
         ticket.setUf(eventResponseDTO.getUf() != null ? eventResponseDTO.getUf() : "UF não informada");
 
-
+        // Salvar o ticket no banco de dados
         Ticket savedTicket = ticketRepository.save(ticket);
 
-
+        // Converter o ticket salvo para DTO
         TicketResponseDTO ticketResponseDTO = new TicketResponseDTO();
         ticketResponseDTO.setTicketId(savedTicket.getTicketId());
         ticketResponseDTO.setCustomerName(savedTicket.getCustomerName());
@@ -80,15 +89,17 @@ public class TicketService {
         ticketResponseDTO.setBrlTotalAmount(savedTicket.getBRLtotalAmoun());
         ticketResponseDTO.setUsdTotalAmount(savedTicket.getUSDtotalAmount());
 
-
+        // Enviar a resposta via RabbitMQ
         rabbitTemplate.convertAndSend(
                 RabbitMQConfig.EXCHANGE_NAME,
                 RabbitMQConfig.ROUTING_KEY,
                 ticketResponseDTO
         );
 
+        // Retornar o ticket criado
         return ticketResponseDTO;
     }
+
     public Ticket findById(String id) {
         return ticketRepository.findById(id)
                 .orElseThrow(() -> new TicketNotFoundException("Ticket not found with id: " + id));
