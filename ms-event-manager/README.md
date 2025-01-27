@@ -65,6 +65,9 @@ server.port=8081
    ```
    http://localhost:8081
    ```
+   ## Relatório de cobertura de Test
+   (img)
+
 
 ## Testes
 Para rodar os testes, faça o exemplo:
