@@ -67,9 +67,12 @@ server.port=8081
    ```
 
 ## Testes
-Para rodar os testes, utilize o comando:
-```bash
-mvn test
+Para rodar os testes, faça o exemplo:
+```
+Para rodar os testes com cobertura de código
+
+Clique com o botão direito no diretório ou arquivo de teste.
+Selecione Run 'Test Name' with Coverage.
 ```
 
 
@@ -142,7 +145,7 @@ Este documento descreve as rotas disponíveis nos controladores de Evento  `ms-e
     "bairro": "Sé",
     "localidade": "São Paulo",
     "uf": "SP"
-}...
+}
 ```
 ### 4. Buscar todos os Eventos ordenados
 **GET /api/get-all-events/sorted**
