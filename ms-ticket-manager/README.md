@@ -123,110 +123,166 @@ Este documento descreve as rotas disponíveis nos controladores de Evento  `ms-t
 
 ## Ingresso (Ticket)
 
-### 1. Criar Evento
-**POST /api/create-event**
+### 1. Criar Ticket
+**POST /api/create-ticket**
 
 **Requisição:**
 ```json
 {
-  "eventName": "Show da Xux",
-  "dateTime": "2024-12-30T21:00:00",
-  "cep": "01020-000"
+ "customerName": "carlos",
+  "cpf": "04957391043",
+  "customerMail": "carlos@gmail.com",
+  "eventId": "1",(Buscado do ms-event-manager)
+  "eventName": "Show da fe",
+  "BRLamount": "R$ 50,00",
+  "USDamount": "$ 10,00"
 }
 ```
 
 **Resposta:**
 ```json
 {
-    "id": "1",
-    "eventName": "Show da Xux",
-    "dateTime": "2024-12-30T21:00:00",
-    "cep": "01020-000",
-    "logradouro": "Rua Tabatinguera",
-    "bairro": "Sé",
+    "ticketId": "18",
+    "customerName": "carlos",
+    "cpf": "04957391043",
+    "customerMail": "carlos@gmail.com",
+    "eventId": "1",
+    "eventName": "Show da fe",
+    "logradouro": "Avenida Paulista",
+    "bairro": "Bela Vista",
     "localidade": "São Paulo",
-    "uf": "SP"
+    "uf": "SP",
+    "status": "concluído",
+    "dateTime": "2024-12-30T21:00:00",
+    "BRLtotalAmount": "R$ 50,00",
+    "USDtotalAmount": "$ 10,00"
 }
 ```
 
 ---
 
-### 2. Buscar Evento por ID
-**GET /api/get-event/{id}**
+### 2. Buscar ticket por ID
+**GET /api/get-ticket/{id}**
 
 **Resposta:**
 ```json
 {
-    "id": "1",
-    "eventName": "Show da Xux",
-    "dateTime": "2024-12-30T21:00:00",
-    "cep": "01020-000",
-    "logradouro": "Rua Tabatinguera",
-    "bairro": "Sé",
+    "ticketId": "1",
+    "customerName": "carlos",
+    "cpf": "04957391043",
+    "customerMail": "carlos@gmail.com",
+    "eventId": "6791e16ff033044b038159dc",
+    "eventName": "Show da fe",
+    "logradouro": "Avenida Paulista",
+    "bairro": "Bela Vista",
     "localidade": "São Paulo",
-    "uf": "SP"
+    "uf": "SP",
+    "status": "concluído",
+    "dateTime": "2024-12-30T21:00:00",
+    "BRLtotalAmount": "R$ 50,00",
+    "USDtotalAmount": "$ 10,00"
 }
 ```
 
 ---
 
-### 3. Buscar todos os Eventos
-**GET /api/get-all-events**
+### 3. Buscar todos os Ticket por cpf
+**GET /api/get-ticket-by-cpf/**
+
+**Requisição:**
+cpf: "04957391043",
 
 **Resposta:**
 ```json
 {
-    "id": "1",
-    "eventName": "Show do notion",
-    "dateTime": "2024-12-30T21:00:00",
-    "cep": "01020-000",
-    "logradouro": "Rua Tabatinguera",
-    "bairro": "Sé",
+    "ticketId": "17",
+    "customerName": "string",
+    "cpf": "04957391043",
+    "customerMail": "carlos@gmail.com",
+    "eventId": "6791e16ff033044b038159dc",
+    "eventName": "Show da fe",
+    "logradouro": "Avenida Paulista",
+    "bairro": "Bela Vista",
     "localidade": "São Paulo",
-    "uf": "SP"
-}
-```
-### 4. Buscar todos os Eventos ordenados
-**GET /api/get-all-events/sorted**
-
-**Resposta:**
-```json
-{
+    "uf": "SP",
+    "status": "cancelado",
+    "dateTime": "2024-12-30T21:00:00",
+    "BRLtotalAmount": "R$ 50,00",
+    "USDtotalAmount": "$ 10,00"
 }
 ```
 
-### 5. Atualizar Evento
-**PUT /api/update-event/{id}**
+### 5. Atualizar Ticket
+**PUT /api/update-ticket/{id}**
 
 **Requisição:**
 ```json
 {
-  "id": "1",
-  "eventName": "Show do Igor",
-  "dateTime": "2024-12-30T21:00:00",
-  "cep": "01020-000",
-  "logradouro": "Rua Tabatinguera",
-  "bairro": "Sé",
-  "localidade": "São Paulo das",
-  "uf": "SP"
+    "ticketId": "1",
+    "customerName": "carlos",
+    "cpf": "04957391043",
+    "customerMail": "carlos@gmail.com",
+    "eventId": "6791e16ff033044b038159dc",
+    "eventName": "Show da fe",
+    "logradouro": "Avenida Paulista",
+    "bairro": "Bela Vista",
+    "localidade": "São Paulo",
+    "uf": "SP",
+    "status": "concluído",
+    "dateTime": "2024-12-30T21:00:00",
+    "BRLtotalAmount": "R$ 50,00",
+    "USDtotalAmount": "$ 10,00"
 }
 ```
 
 **Resposta:**
 ```json
 {
-    "id": "1",
-    "eventName": "Show do Igor",
-    "dateTime": "2024-12-30T21:00:00",
-    "cep": "01020-000",
-    "logradouro": "Rua Tabatinguera",
-    "bairro": "Sé",
+    "ticketId": "1",
+    "customerName": "henrique",
+    "cpf": "04957391043",
+    "customerMail": "henrique@gmail.com",
+    "eventId": "6791e16ff033044b038159dc",
+    "eventName": "Show da milhao",
+    "logradouro": "Avenida ",
+    "bairro": "Bela Vista",
     "localidade": "São Paulo",
-    "uf": "SP"
+    "uf": "SP",
+    "status": "concluído",
+    "dateTime": "2024-12-30T21:00:00",
+    "BRLtotalAmount": "R$ 50,00",
+    "USDtotalAmount": "$ 10,00"
 }
 ```
-### 6. Deletar Evento
-**DELETE /api/delete-event/{id}**
+### 2. Verificar ingressos vinculados a um evento.
+**GET /api/check-tickets-by-event/{eventId}**
+
+**Requisição:**
+"eventId": "1"
 
 **Resposta:**
-- 204 No Content (Evento excluído com sucesso.)
+True ou False
+
+```
+### 6. Cancelar Ticket por id
+**DELETE /api/cancel-ticket/{id}**
+**Requisição:**
+"ticketId": "1",
+
+**Resposta:**
+Ingresso cancelado com sucesso.
+
+"status": "pendente" (Utilizamos a técnica de soft delete, onde o status de um pedido é alterado de "concluído" para "pendente" em vez de excluí-lo fisicamente do banco de dados. 
+
+
+### 7. Cancelar Ticket por cpf
+**DELETE /api/cancel-ticket/cpf/{cpf}**
+**Requisição:**
+cpf: "04957391043",
+
+**Resposta:**
+Todos os ingressos associados ao CPF 04957391043 foram cancelados com sucesso.
+
+"status": "pendente" (Utilizamos a técnica de soft delete, onde o status de um pedido é alterado de "concluído" para "pendente" em vez de excluí-lo fisicamente do banco de dados. 
+```
+
