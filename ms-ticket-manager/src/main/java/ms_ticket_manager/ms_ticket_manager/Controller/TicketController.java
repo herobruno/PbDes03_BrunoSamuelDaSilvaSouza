@@ -73,7 +73,6 @@ public class TicketController {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
-
     @DeleteMapping("/cancel-ticket/{id}")
     public ResponseEntity<String> cancelTicket(@PathVariable("id") String id) {
         try {
@@ -83,7 +82,6 @@ public class TicketController {
             return new ResponseEntity<>("Ingresso não encontrado.", HttpStatus.NOT_FOUND);
         }
     }
-
     @DeleteMapping("/cancel-ticket/cpf/{cpf}")
     public ResponseEntity<String> cancelTicketsByCpf(@PathVariable("cpf") String cpf) {
         try {

@@ -22,7 +22,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,8 +45,7 @@ public class TicketControllerTest {
     @MockBean
     private EventFeignClient eventFeignClient;
 
-    @InjectMocks
-    private TicketController ticketController;
+
 
     @Test
     public void shouldCreateTicket() throws Exception {
@@ -166,4 +166,41 @@ public class TicketControllerTest {
                 .andExpect(status().isNotFound())
                 .andExpect(content().string(""));
     }
+    @Test
+    void testGetTicketsByCpf_Success() throws Exception {
+        TicketResponseDTO dto = new TicketResponseDTO();
+        dto.setTicketId("123");
+        dto.setCustomerName("John Doe");
+        dto.setCpf("98765432100");
+        dto.setCustomerMail("john.doe@example.com");
+        dto.setEventId("E001");
+        dto.setEventName("Rock Concert");
+        dto.setDateTime(LocalDateTime.of(2025, 2, 15, 20, 30));
+        dto.setLogradouro("Rua das Flores");
+        dto.setBairro("Centro");
+        dto.setLocalidade("São Paulo");
+        dto.setUf("SP");
+        dto.setStatus("ativo");
+
+        List<TicketResponseDTO> responseDTOs = Collections.singletonList(dto);
+
+        when(ticketService.getTicketsByCpf("98765432100")).thenReturn(responseDTOs);
+
+        mockMvc.perform(get("/api/get-ticket-by-cpf/98765432100")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.size()").value(1))
+                .andExpect(jsonPath("$[0].ticketId").value("123"))
+                .andExpect(jsonPath("$[0].customerName").value("John Doe"))
+                .andExpect(jsonPath("$[0].cpf").value("98765432100"))
+                .andExpect(jsonPath("$[0].eventId").value("E001"))
+                .andExpect(jsonPath("$[0].eventName").value("Rock Concert"))
+                .andExpect(jsonPath("$[0].logradouro").value("Rua das Flores"))
+                .andExpect(jsonPath("$[0].bairro").value("Centro"))
+                .andExpect(jsonPath("$[0].localidade").value("São Paulo"))
+                .andExpect(jsonPath("$[0].uf").value("SP"))
+                .andExpect(jsonPath("$[0].status").value("ativo"));
+    }
 }
+
