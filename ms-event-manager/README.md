@@ -79,196 +79,115 @@ Este documento descreve as rotas disponíveis nos controladores de Evento  `ms-e
 
 ---
 
-## Produtos (Products)
+## Evento (Event)
 
-### 1. Criar Produto
-**POST /api/v1/products**
-
-**Requisição:**
-```json
-{
-    "name": "Produto1",
-    "description": "Descrição",
-    "price": 9.99,
-    "imgUrl": "http://exemplo.com/imagem.jpg",
-    "date": "2023-12-27T10:30:00",
-    "categories": [
-        {
-            "id": 1,
-            "name": "Categoria A"
-        }
-    ]
-}
-```
-
-**Resposta:**
-```json
-{
-    "name": "Produto1",
-    "description": "Descrição",
-    "price": 9.99,
-    "imgUrl": "http://exemplo.com/imagem.jpg",
-    "date": "2023-12-27T10:30:00",
-    "categories": [
-        {
-            "id": 1,
-        }
-    ]
-}
-```
-
----
-
-### 2. Buscar Produto por ID
-**GET /api/v1/products/{id}**
-
-**Resposta:**
-```json
-{
-   "id": 1,
-    "name": "Produto1",
-    "description": "Descrição",
-    "price": 9.99,
-    "imgUrl": "http://exemplo.com/imagem.jpg",
-    "date": "2023-12-27T10:30:00",
-    "categories": [
-        {
-            "id": 1,
-        }
-    ]
-}
-```
-
----
-
-### 3. Deletar Produto
-**DELETE /api/v1/products/{id}**
-
-**Resposta:**
-- 204 No Content (se removido com sucesso)
-- 404 Not Found (se o produto não for encontrado)
-
----
-
-### 4. Listar Produtos com Paginação
-**GET /api/v1/products**
-
-**Parâmetros:**
-- `page` (opcional): Página atual (padrão: 0)
-- `linesPerPage` (opcional): Linhas por página (padrão: 5)
-- `direction` (opcional): Ordenação ASC/DESC (padrão: ASC)
-- `orderBy` (opcional): Campo de ordenação (padrão: name)
-
-**Resposta:**
-```json
-{
-  "content": [
-{
-    "name": "Produto1",
-    "description": "Descrição",
-    "price": 9.99,
-    "imgUrl": "http://exemplo.com/imagem.jpg",
-    "date": "2023-12-27T10:30:00",
-    "categories": [
-        {
-            "id": 1,
-        }
-    ]
-}
-{
-    "name": "Produto2",
-    "description": "Descrição",
-    "price": 1.99,
-    "imgUrl": "http://exemplo.com/imagem.jpg",
-    "date": "2023-12-27T10:30:00",
-    "categories": [
-        {
-            "id": 1,
-        }
-    ]
-}
-  ],
-  "totalPages": 1,
-  "totalElements": 2,
-  "size": 5,
-  "number": 0
-}
-```
-
----
-
-## Categorias (Categories)
-
-### 1. Criar Categoria
-**POST /api/v1/categories**
+### 1. Criar Evento
+**POST /api/create-event**
 
 **Requisição:**
 ```json
 {
-  "name": "Categoria A"
+  "eventName": "Show da Xux",
+  "dateTime": "2024-12-30T21:00:00",
+  "cep": "01020-000"
 }
 ```
 
 **Resposta:**
 ```json
-   "categories": [
-        {
-            "id": 1,
-        }
-    ]
+{
+    "id": "1",
+    "eventName": "Show da Xux",
+    "dateTime": "2024-12-30T21:00:00",
+    "cep": "01020-000",
+    "logradouro": "Rua Tabatinguera",
+    "bairro": "Sé",
+    "localidade": "São Paulo",
+    "uf": "SP"
+}
 ```
 
 ---
 
-### 2. Atualizar Categoria
-**PUT /api/v1/categories/{id}**
+### 2. Buscar Evento por ID
+**GET /api/get-event/{id}**
+
+**Resposta:**
+```json
+{
+    "id": "1",
+    "eventName": "Show da Xux",
+    "dateTime": "2024-12-30T21:00:00",
+    "cep": "01020-000",
+    "logradouro": "Rua Tabatinguera",
+    "bairro": "Sé",
+    "localidade": "São Paulo",
+    "uf": "SP"
+}
+```
+
+---
+
+### 3. Buscar todos os Eventos
+**GET /api/get-all-events**
+
+**Resposta:**
+```json
+{
+    "id": "1",
+    "eventName": "Show do notion",
+    "dateTime": "2024-12-30T21:00:00",
+    "cep": "01020-000",
+    "logradouro": "Rua Tabatinguera",
+    "bairro": "Sé",
+    "localidade": "São Paulo",
+    "uf": "SP"
+}...
+```
+### 4. Buscar todos os Eventos ordenados
+**GET /api/get-all-events/sorted**
+
+**Resposta:**
+```json
+{
+}
+```
+
+### 5. Atualizar Evento
+**PUT /api/update-event/{id}**
 
 **Requisição:**
 ```json
 {
-  "name": "Nova Categoria"
+  "id": "1",
+  "eventName": "Show do Igor",
+  "dateTime": "2024-12-30T21:00:00",
+  "cep": "01020-000",
+  "logradouro": "Rua Tabatinguera",
+  "bairro": "Sé",
+  "localidade": "São Paulo das",
+  "uf": "SP"
 }
 ```
-
-**Resposta:**
-- 204 No Content (se atualizado com sucesso)
-
----
-
-### 3. Buscar Categoria por ID
-**GET /api/v1/categories/{id}**
 
 **Resposta:**
 ```json
 {
-  "id": 1,
+    "id": "1",
+    "eventName": "Show do Igor",
+    "dateTime": "2024-12-30T21:00:00",
+    "cep": "01020-000",
+    "logradouro": "Rua Tabatinguera",
+    "bairro": "Sé",
+    "localidade": "São Paulo",
+    "uf": "SP"
 }
 ```
-
----
-
-### 4. Listar Todas as Categorias
-**GET /api/v1/categories**
+### 6. Deletar Evento
+**DELETE /api/delete-event/{id}**
 
 **Resposta:**
-```json
-[
-  {
-    "id": 1,
-  },
-  {
-    "id": 2,
-  }
-]
-```
-
----
-
-### 5. Deletar Categoria
-**DELETE /api/v1/categories/{id}**
-
-**Resposta:**
-- 204 No Content (se removido com sucesso)
+- 204 No Content (Evento excluído com sucesso.)
 
 
 
