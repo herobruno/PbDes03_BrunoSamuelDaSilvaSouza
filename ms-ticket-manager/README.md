@@ -101,8 +101,10 @@ spring.mail.properties.mail.smtp.ssl.trust=smtp.gmail.com
    ```
    http://localhost:8080
    ```
-   ## Relatório de cobertura de Test
-   (img)
+   ## Porcentagem de cobertura de Test
+   ![image](https://github.com/user-attachments/assets/91e3d5f7-7062-43f8-99e6-e89cd53fb429)
+
+
 
 
 ## Testes
@@ -132,7 +134,7 @@ Este documento descreve as rotas disponíveis nos controladores de Evento  `ms-t
  "customerName": "carlos",
   "cpf": "04957391043",
   "customerMail": "carlos@gmail.com",
-  "eventId": "1",(Buscado do ms-event-manager)
+  "eventId": "1", Buscado do ms-event-manager
   "eventName": "Show da fe",
   "BRLamount": "R$ 50,00",
   "USDamount": "$ 10,00"
@@ -190,7 +192,8 @@ Este documento descreve as rotas disponíveis nos controladores de Evento  `ms-t
 **GET /api/get-ticket-by-cpf/**
 
 **Requisição:**
-cpf: "04957391043",
+
+cpf: "04957391043"
 
 **Resposta:**
 ```json
@@ -212,7 +215,7 @@ cpf: "04957391043",
 }
 ```
 
-### 5. Atualizar Ticket
+### 4. Atualizar Ticket
 **PUT /api/update-ticket/{id}**
 
 **Requisição:**
@@ -254,35 +257,46 @@ cpf: "04957391043",
     "USDtotalAmount": "$ 10,00"
 }
 ```
-### 2. Verificar ingressos vinculados a um evento.
-**GET /api/check-tickets-by-event/{eventId}**
+### 5. Verificar Tickets Vinculados a um Evento  
+**`GET /api/check-tickets-by-event/{eventId}`**
 
-**Requisição:**
-"eventId": "1"
+**Requisição:**  
+eventId: `"1"`
 
-**Resposta:**
-True ou False
+**Resposta:**  
+`True` ou `False`  
+> Essa rota é utilizada pelo **ms-event-manager** para verificar se há ingressos vendidos no **ms-ticket-manager** antes de excluir o evento.  
 
-```
+---
+
+
+
 ### 6. Cancelar Ticket por id
 **DELETE /api/cancel-ticket/{id}**
+
 **Requisição:**
-"ticketId": "1",
+
+ticketId: `"1"`
 
 **Resposta:**
-Ingresso cancelado com sucesso.
 
-"status": "pendente" (Utilizamos a técnica de soft delete, onde o status de um pedido é alterado de "concluído" para "pendente" em vez de excluí-lo fisicamente do banco de dados. 
+`Ingresso cancelado com sucesso.`
 
+`"status": "cancelado"`
+>Utilizamos a técnica de soft delete, onde o status de um pedido é alterado de "concluído" para "pendente" em vez de excluí-lo fisicamente do banco de dados. 
 
+---
 ### 7. Cancelar Ticket por cpf
 **DELETE /api/cancel-ticket/cpf/{cpf}**
+
 **Requisição:**
-cpf: "04957391043",
+
+cpf: `"04957391043"`
 
 **Resposta:**
-Todos os ingressos associados ao CPF 04957391043 foram cancelados com sucesso.
 
-"status": "pendente" (Utilizamos a técnica de soft delete, onde o status de um pedido é alterado de "concluído" para "pendente" em vez de excluí-lo fisicamente do banco de dados. 
-```
+`Todos os ingressos associados ao CPF 04957391043 foram cancelados com sucesso.`
 
+`"status": "cancelado"`
+>Utilizamos a técnica de soft delete, onde o status de um pedido é alterado de "concluído" para "pendente" em vez de excluí-lo fisicamente do banco de dados. 
+---
