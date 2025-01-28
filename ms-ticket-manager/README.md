@@ -7,7 +7,7 @@ Este projeto é um microsserviço desenvolvido em **Spring Boot** para gerenciam
 - **Mensageria RabbitMQ**
 - **Spring Versão 3.3.x (LTS)**
 - **Maven**
-- **Banco de Dados MongoDB Compass**
+- **Banco de Dados MongoDB**
 - **Java Versão 17 (LTS)**
 - **OpenFeign**
 
