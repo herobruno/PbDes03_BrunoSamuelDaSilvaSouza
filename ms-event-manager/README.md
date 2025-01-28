@@ -117,6 +117,10 @@ Este documento descreve as rotas disponíveis nos controladores de Evento  `ms-e
 ### 2. Buscar Evento por ID
 **GET /api/get-event/{id}**
 
+**Requisição:**
+
+id: `"1"`
+
 **Resposta:**
 ```json
 {
@@ -164,7 +168,6 @@ Este documento descreve as rotas disponíveis nos controladores de Evento  `ms-e
 **Requisição:**
 ```json
 {
-  "id": "1",
   "eventName": "Show do Igor",
   "dateTime": "2024-12-30T21:00:00",
   "cep": "01020-000",
@@ -191,8 +194,14 @@ Este documento descreve as rotas disponíveis nos controladores de Evento  `ms-e
 ### 6. Deletar Evento
 **DELETE /api/delete-event/{id}**
 
+**Requisição:**
+
+id: `"1"`
+
 **Resposta:**
-- 204 No Content (Evento excluído com sucesso.)
+> 204 No Content
+> 
+> Evento excluído com sucesso
 
 
 
