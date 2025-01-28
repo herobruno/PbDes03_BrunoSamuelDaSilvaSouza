@@ -4,7 +4,6 @@
 Este projeto é um microsserviço desenvolvido em **Spring Boot** para gerenciamento de  eventos , ele inclui suporte para banco de dados MongoDB Compass.
 
 ## Tecnologias Utilizadas
-- **Mensageria RabbitMQ**
 - **Spring Versão 3.3.x (LTS)**
 - **Maven**
 - **Banco de Dados MongoDB**

@@ -53,7 +53,6 @@ public class EventController {
     @DeleteMapping("/delete-event/{id}")
     public ResponseEntity<String> deleteEvent(@PathVariable String id) {
         try {
-
             if (!eventService.eventExists(id)) {
                 throw new EventNotFoundException("Evento não encontrado");
             }
