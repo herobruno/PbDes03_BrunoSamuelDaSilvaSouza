@@ -29,12 +29,12 @@ Microsserviço responsável por gerenciar os eventos.
 #### **Operações Disponíveis:**
 | Operação      | Método | Path                   | Regra                                  |
 |------------------|--------|------------------------|----------------------------------------|
-| Criar           | POST   | `/create-event`        | Cria um evento                        |
-| Consultar       | GET    | `/get-event/{id}`      | Busca um evento pelo ID               |
-| Consultar       | GET    | `/get-all-events`      | Lista todos os eventos                |
-| Consultar       | GET    | `/get-all-events/sorted` | Lista eventos em ordem alfabética     |
-| Atualizar       | PUT    | `/update-event/{id}`   | Atualiza um evento pelo ID            |
-| Excluir         | DELETE | `/delete-event/{id}`   | Exclui um evento pelo ID              |
+| Criar           | POST   | `api/create-event`        | Cria um evento                        |
+| Consultar       | GET    | `api/get-event/{id}`      | Busca um evento pelo ID               |
+| Consultar       | GET    | `api/get-all-events`      | Lista todos os eventos                |
+| Consultar       | GET    | `api/get-all-events/sorted` | Lista eventos em ordem alfabética     |
+| Atualizar       | PUT    | `api/update-event/{id}`   | Atualiza um evento pelo ID            |
+| Excluir         | DELETE | `api/delete-event/{id}`   | Exclui um evento pelo ID              |
 
 #### **Regra para Exclusão de Eventos:**
 Antes de deletar um evento, o microsserviço verifica no **ms-ticket-manager** se há ingressos vendidos para o evento. Caso existam ingressos:
@@ -55,13 +55,13 @@ Microsserviço responsável por gerenciar os ingressos dos eventos.
 #### **Operações Disponíveis:**
 | Operação      | Método | Path                                | Regra                                   |
 |------------------|--------|-------------------------------------|----------------------------------------|
-| Criar           | POST   | `/create-ticket`                    | Cria um ingresso após validar o evento |
-| Consultar       | GET    | `/get-ticket/{id}`                  | Busca um ingresso pelo ID              |
-| Consultar       | GET    | `/get-ticket-by-cpf/{cpf}`          | Consulta ingressos por CPF             |
-| Atualizar       | PUT    | `/update-ticket/{id}`               | Atualiza o ingresso                    |
-| Verificar       | GET    | `/check-tickets-by-event/{eventId}` | Verifica ingressos vinculados a um evento |
-| Cancelar        | DELETE | `/cancel-ticket/{id}`               | Cancela um ingresso por ID (soft-delete) |
-| Cancelar        | DELETE | `/cancel-ticket/{cpf}`              | Cancela ingressos por CPF (soft-delete) |
+| Criar           | POST   | `api/create-ticket`                    | Cria um ingresso após validar o evento |
+| Consultar       | GET    | `api/get-ticket/{id}`                  | Busca um ingresso pelo ID              |
+| Consultar       | GET    | `api/get-ticket-by-cpf/{cpf}`          | Consulta ingressos por CPF             |
+| Atualizar       | PUT    | `api/update-ticket/{id}`               | Atualiza o ingresso                    |
+| Verificar       | GET    | `api/check-tickets-by-event/{eventId}` | Verifica ingressos vinculados a um evento |
+| Cancelar        | DELETE | `api/cancel-ticket/{id}`               | Cancela um ingresso por ID (soft-delete) |
+| Cancelar        | DELETE | `api/cancel-ticket/cpf/{cpf}`          | Cancela ingressos por CPF (soft-delete) |
 
 ---
 
