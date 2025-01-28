@@ -1,10 +1,10 @@
 # ms-ticket-manager
 
 ## Descrição
-Este projeto é um microsserviço desenvolvido em **Spring Boot** para gerenciamento de  tickets(Ingresso) . Ele inclui suporte para banco de dados MongoDB Compass.
+Este projeto é um microsserviço desenvolvido em **Spring Boot** para gerenciamento de  tickets(Ingresso) , ele inclui suporte para banco de dados MongoDB.
 
 ## Tecnologias Utilizadas
-- **Mensageria: RabbitMQ**
+- **Mensageria RabbitMQ**
 - **Spring Versão 3.3.x (LTS)**
 - **Maven**
 - **Banco de Dados MongoDB Compass**
@@ -119,7 +119,7 @@ Selecione Run 'Test Name' with Coverage.
 
 # API Endpoints -Ticket
 
-Este documento descreve as rotas disponíveis nos controladores de Evento  `ms-ticket-manager`. Ele inclui exemplos de uso para cada endpoint.
+Este documento descreve as rotas disponíveis nos controladores de Ticket  `ms-ticket-manager`. Ele inclui exemplos de uso para cada endpoint.
 
 ---
 
@@ -166,6 +166,10 @@ Este documento descreve as rotas disponíveis nos controladores de Evento  `ms-t
 ### 2. Buscar ticket por ID
 **GET /api/get-ticket/{id}**
 
+**Requisição:**
+
+ticketId: `"1"`
+
 **Resposta:**
 ```json
 {
@@ -189,11 +193,11 @@ Este documento descreve as rotas disponíveis nos controladores de Evento  `ms-t
 ---
 
 ### 3. Buscar todos os Ticket por cpf
-**GET /api/get-ticket-by-cpf/**
+**GET /api/get-ticket-by-cpf/{cpf}**
 
 **Requisição:**
 
-cpf: "04957391043"
+cpf: `"04957391043"`
 
 **Resposta:**
 ```json
@@ -221,7 +225,6 @@ cpf: "04957391043"
 **Requisição:**
 ```json
 {
-    "ticketId": "1",
     "customerName": "carlos",
     "cpf": "04957391043",
     "customerMail": "carlos@gmail.com",
