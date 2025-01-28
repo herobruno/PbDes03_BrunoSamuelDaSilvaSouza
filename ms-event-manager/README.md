@@ -1,16 +1,16 @@
 # ms-event-manager
 
 ## Descrição
-Este projeto é um microsserviço desenvolvido em **Spring Boot** para gerenciamento de  eventos . Ele inclui suporte para banco de dados MongoDB Compass.
+Este projeto é um microsserviço desenvolvido em **Spring Boot** para gerenciamento de  eventos , ele inclui suporte para banco de dados MongoDB Compass.
 
 ## Tecnologias Utilizadas
-- **Mensageria: RabbitMQ**
+- **Mensageria RabbitMQ**
 - **Spring Versão 3.3.x (LTS)**
 - **Maven**
-- **Banco de Dados MongoDB Compass**
+- **Banco de Dados MongoDB**
 - **Java Versão 17 (LTS)**
 - **API ViaCEP**
-- **OpenFeign**
+
 
 
 
@@ -35,7 +35,6 @@ Este projeto é um microsserviço desenvolvido em **Spring Boot** para gerenciam
 ## Configuração do Banco de Dados
 ### MongoDB 
 ```
-Configurações do MongoDB
 spring.application.name=ms-event-manager
 spring.data.mongodb.uri=mongodb://localhost:27017/db_event
 spring.data.mongodb.database=db_event
@@ -95,7 +94,7 @@ Este documento descreve as rotas disponíveis nos controladores de Evento  `ms-e
 {
   "eventName": "Show da Xux",
   "dateTime": "2024-12-30T21:00:00",
-  "cep": "01020-000"
+  "cep": "01020-000" Sera buscado os dados pela API ViaCEP
 }
 ```
 
