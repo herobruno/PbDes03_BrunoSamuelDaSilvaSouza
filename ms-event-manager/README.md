@@ -64,8 +64,9 @@ server.port=8081
    ```
    http://localhost:8081
    ```
-   ## Relatório de cobertura de Test
-   (img)
+   ## Porcentagem de cobertura de Test
+   ![image](https://github.com/user-attachments/assets/644a1c9e-2358-43cc-95e6-96cb60f70940)
+
 
 
 ## Testes
@@ -152,14 +153,44 @@ id: `"1"`
     "localidade": "São Paulo",
     "uf": "SP"
 }
+  {
+     "id": "13",
+     "eventName": "brasileirão",
+     "dateTime": "2024-12-30T21:00:00",
+     "cep": "01020-000",
+     "logradouro": "Rua Tabatinguera",
+     "bairro": "Sé",
+     "localidade": "São Paulo",
+     "uf": "SP"
+  },
+
+
 ```
-### 4. Buscar todos os Eventos ordenados
+### 4. Buscar todos os Eventos em ordem alfabética
 **GET /api/get-all-events/sorted**
 
 **Resposta:**
 ```json
-{
-}
+ {
+        "id": "11",
+        "eventName": "aluminio",
+        "dateTime": "2024-12-30T21:00:00",
+        "cep": "01020-000",
+        "logradouro": "Rua Tabatinguera",
+        "bairro": "Sé",
+        "localidade": "São Paulo",
+        "uf": "SP"
+    },
+    {
+        "id": "13",
+        "eventName": "brasileirão",
+        "dateTime": "2024-12-30T21:00:00",
+        "cep": "01020-000",
+        "logradouro": "Rua Tabatinguera",
+        "bairro": "Sé",
+        "localidade": "São Paulo",
+        "uf": "SP"
+    },
 ```
 
 ### 5. Atualizar Evento
@@ -198,10 +229,14 @@ id: `"1"`
 
 id: `"1"`
 
-**Resposta:**
+**Resposta:No Content**
 > 204 No Content
-> 
-> Evento excluído com sucesso
+
+**Resposta:Ingressos vendidos para o evento**
+> 409 Conflict
+
+**Resposta:Evento não encontrado**
+> 404 Not Found
 
 
 
