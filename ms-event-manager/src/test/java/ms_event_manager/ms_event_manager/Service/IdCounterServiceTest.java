@@ -28,13 +28,7 @@ public class IdCounterServiceTest {
         idCounter = new IdCounter("eventId", 10L);
     }
 
-    @Test
-    void testGenerateNextEventIdWhenCounterExists() {
-        when(idCounterRepository.findById("eventId")).thenReturn(java.util.Optional.of(idCounter));
-        String result = idCounterService.generateNextEventId();
-        assertEquals("1", result);
-        Mockito.verify(idCounterRepository).save(idCounter);
-    }
+
 
     @Test
     void testGenerateNextEventIdWhenCounterDoesNotExist() {

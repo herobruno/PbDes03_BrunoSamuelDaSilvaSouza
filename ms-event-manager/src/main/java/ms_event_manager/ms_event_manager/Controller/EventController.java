@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import ms_event_manager.ms_event_manager.Dto.EventRequestDTO;
 import ms_event_manager.ms_event_manager.Dto.EventResponseDTO;
 import ms_event_manager.ms_event_manager.Dto.EventUpdateDTO;
+import ms_event_manager.ms_event_manager.Exception.EventNotFoundException;
 import ms_event_manager.ms_event_manager.Service.EventService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,8 +53,14 @@ public class EventController {
     @DeleteMapping("/delete-event/{id}")
     public ResponseEntity<String> deleteEvent(@PathVariable String id) {
         try {
+
+            if (!eventService.eventExists(id)) {
+                throw new EventNotFoundException("Evento não encontrado");
+            }
             eventService.deleteEvent(id);
-            return ResponseEntity.ok("Evento excluído com sucesso.");
+            return ResponseEntity.noContent().build();
+        } catch (EventNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Ingressos vendidos para este evento");
         }

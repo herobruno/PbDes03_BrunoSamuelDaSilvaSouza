@@ -78,6 +78,9 @@ public class EventService {
                 .map(eventMapper::toResponseDTO)
                 .collect(Collectors.toList());
     }
+    public boolean eventExists(String id) {
+        return eventRepository.existsById(id);
+    }
 
     public EventResponseDTO updateEvent(String id, EventUpdateDTO eventUpdateDTO) {
         Optional<Event> eventOptional = eventRepository.findById(id);
