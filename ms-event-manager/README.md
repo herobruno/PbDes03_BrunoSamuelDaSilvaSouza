@@ -229,10 +229,14 @@ id: `"1"`
 
 id: `"1"`
 
-**Resposta:**
+**Resposta:No Content**
 > 204 No Content
-> 
-> Evento excluído com sucesso
+
+**Resposta:Ingressos vendidos para o evento**
+> 409 Conflict
+
+**Resposta:Evento não encontrado**
+> 404 Not Found
 
 
 
