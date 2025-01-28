@@ -114,11 +114,6 @@ Cancelamento de ingressos utilizando soft-delete.
 - Para verificar a cobertura:
   - Clique com o botão direito na classe/pacote e selecione **Run with coverage**.
 
----
-
-## **📚 Licença**
-
-Este projeto está licenciado sob a [MIT License](LICENSE).
 
 ---
 
