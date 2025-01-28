@@ -5,6 +5,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import ms_event_manager.ms_event_manager.Dto.EventRequestDTO;
 import ms_event_manager.ms_event_manager.Dto.EventResponseDTO;
 import ms_event_manager.ms_event_manager.Dto.EventUpdateDTO;
+import ms_event_manager.ms_event_manager.Exception.EventNotFoundException;
 import ms_event_manager.ms_event_manager.Service.EventService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -103,20 +104,20 @@ class EventControllerTest {
                 .andExpect(jsonPath("$[0].eventName").value("Sample Event"));
     }
 
-
     @Test
-    void testDeleteEvent() throws Exception {
+    void testDeleteEventNotFound() throws Exception {
+        doThrow(new EventNotFoundException("Evento não encontrado")).when(eventService).deleteEvent("1");
+        mockMvc.perform(delete("/api/delete-event/1"))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("Evento não encontrado"));
+    }
+    @Test
+    void testDeleteEventSuccess() throws Exception {
+        when(eventService.eventExists("1")).thenReturn(true);
         doNothing().when(eventService).deleteEvent("1");
         mockMvc.perform(delete("/api/delete-event/1"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Evento excluído com sucesso."));
+                .andExpect(status().isNoContent())
+                .andExpect(content().string(""));
     }
-    @Test
-    void testDeleteEventConflict() throws Exception {
-        doThrow(new RuntimeException("Evento em conflito ao ser excluído")).when(eventService).deleteEvent("1");
 
-        mockMvc.perform(delete("/api/delete-event/1"))
-                .andExpect(status().isConflict())
-                .andExpect(content().string("Ingressos vendidos para este evento"));
-    }
 }
