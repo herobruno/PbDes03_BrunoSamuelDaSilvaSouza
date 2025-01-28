@@ -12,7 +12,9 @@ public class IdCounter {
     private String id;
     private Long counter;
 
-    public IdCounter(String eventId, long l) {
+    public IdCounter(String id, long counter) {
+        this.id = id;
+        this.counter = counter;
     }
 
     public IdCounter() {
