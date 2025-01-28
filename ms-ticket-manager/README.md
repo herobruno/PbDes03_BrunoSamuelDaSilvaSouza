@@ -58,14 +58,6 @@ spring.rabbitmq.username=guest
 spring.rabbitmq.password=guest
 
 ```
-## Configurações do RabbitMQ
-```
-spring.rabbitmq.host=localhost
-spring.rabbitmq.port=5672
-spring.rabbitmq.username=guest
-spring.rabbitmq.password=guest
-
-```
 ## Configurações do Gmail SMTP para envio de e-mails
 ```
 spring.mail.host=smtp.gmail.com
