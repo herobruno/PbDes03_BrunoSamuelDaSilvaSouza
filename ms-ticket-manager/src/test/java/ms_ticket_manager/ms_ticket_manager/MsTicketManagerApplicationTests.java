@@ -9,5 +9,4 @@ class MsTicketManagerApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
