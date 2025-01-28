@@ -9,6 +9,7 @@ Este projeto é um microsserviço desenvolvido em **Spring Boot** para gerenciam
 - **Banco de Dados MongoDB**
 - **Java Versão 17 (LTS)**
 - **API ViaCEP**
+- **OpenFeign**
 
 
 
