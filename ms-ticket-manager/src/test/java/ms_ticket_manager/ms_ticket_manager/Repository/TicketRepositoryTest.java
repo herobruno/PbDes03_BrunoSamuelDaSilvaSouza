@@ -1,24 +1,19 @@
 package ms_ticket_manager.ms_ticket_manager.Repository;
 
 import ms_ticket_manager.ms_ticket_manager.Entity.Ticket;
-import ms_ticket_manager.ms_ticket_manager.Service.TicketService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class TicketRepositoryTest {
-
     @Mock
     private TicketRepository ticketRepository;
 
-    @InjectMocks
-    private TicketService ticketService;
     @Test
     public void shouldSaveAndFindTicket() {
         Ticket ticket = new Ticket();

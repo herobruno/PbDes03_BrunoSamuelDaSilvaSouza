@@ -11,13 +11,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 class TicketIdGeneratorServiceTest {
-
     @Mock
     private IdCounterRepository idCounterRepository;
-
     @InjectMocks
     private TicketIdGeneratorService ticketIdGeneratorService;
-
     public TicketIdGeneratorServiceTest() {
         MockitoAnnotations.openMocks(this);
     }

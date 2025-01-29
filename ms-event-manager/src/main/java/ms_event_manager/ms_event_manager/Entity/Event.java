@@ -17,9 +17,15 @@ import java.util.Objects;
 @Builder
 @Document(collection = "event")
 public class Event {
-
-
-
+    @Id
+    private String id;
+    private String eventName;
+    private LocalDateTime dateTime;
+    private String cep;
+    private String logradouro;
+    private String bairro;
+    private String localidade;
+    private String uf;
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -37,20 +43,8 @@ public class Event {
                 ", cep='" + cep + '\'' +
                 '}';
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(id, eventName, dateTime, cep);
     }
-
-    @Id
-    private String id;
-    private String eventName;
-    private LocalDateTime dateTime;
-    private String cep;
-    private String logradouro;
-    private String bairro;
-    private String localidade;
-    private String uf;
-
 }

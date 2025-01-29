@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class IdCounterService {
-
     @Autowired
     private IdCounterRepository idCounterRepository;
 

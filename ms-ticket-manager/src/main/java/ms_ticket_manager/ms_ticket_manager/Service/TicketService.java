@@ -24,14 +24,12 @@ public class TicketService {
     public TicketService(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
-    private static final Logger log = LoggerFactory.getLogger(TicketService.class);
-
+    //private static final Logger log = LoggerFactory.getLogger(TicketService.class);
     @Autowired
     private TicketRepository ticketRepository;
 
     @Autowired
     private TicketIdGeneratorService ticketIdGeneratorService;
-
     public TicketResponseDTO createTicket(TicketRequestDTO ticketRequestDTO, EventResponseDTO eventResponseDTO) {
 
         String generatedTicketId = ticketIdGeneratorService.generateNextTicketId();
@@ -89,7 +87,6 @@ public class TicketService {
         );
         return ticketResponseDTO;
     }
-
     public Ticket findById(String id) {
         return ticketRepository.findById(id)
                 .orElseThrow(() -> new TicketNotFoundException("Ticket not found with id: " + id));

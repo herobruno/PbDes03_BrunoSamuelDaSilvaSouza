@@ -1,7 +1,6 @@
 package ms_ticket_manager.ms_ticket_manager.Entity;
 
 import lombok.Data;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 @Data

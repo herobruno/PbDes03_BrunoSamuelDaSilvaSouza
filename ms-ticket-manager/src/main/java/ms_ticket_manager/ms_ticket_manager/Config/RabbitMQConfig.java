@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfig {
-
     public static final String QUEUE_NAME = "ticket_confirmation_queue";
     public static final String EXCHANGE_NAME = "ticket_exchange";
     public static final String ROUTING_KEY = "ticket.confirmation";
@@ -31,7 +30,6 @@ public class RabbitMQConfig {
     public Jackson2JsonMessageConverter messageConverter() {
         return new Jackson2JsonMessageConverter();
     }
-
     @Bean
     public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory, Jackson2JsonMessageConverter messageConverter) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);

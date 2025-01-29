@@ -7,7 +7,6 @@ import lombok.Data;
 @Data
 @Entity
 public class IdCounter {
-
     @Id
     private String id;
     private Long counter;

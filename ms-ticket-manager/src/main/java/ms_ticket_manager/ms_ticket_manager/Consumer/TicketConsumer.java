@@ -8,13 +8,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TicketConsumer {
-
     private final EmailService emailService;
-
     public TicketConsumer(EmailService emailService) {
         this.emailService = emailService;
     }
-
     @RabbitListener(queues = RabbitMQConfig.QUEUE_NAME)
     public void processTicketConfirmation(TicketResponseDTO ticketResponseDTO) {
         try {

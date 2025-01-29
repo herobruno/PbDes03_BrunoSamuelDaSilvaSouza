@@ -14,7 +14,6 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class IdCounterServiceTest {
-
     @Mock
     private IdCounterRepository idCounterRepository;
 

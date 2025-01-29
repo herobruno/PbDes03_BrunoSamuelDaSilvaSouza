@@ -21,12 +21,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 class EventControllerTest {
-
     private MockMvc mockMvc;
-
     @Mock
     private EventService eventService;
-
     @InjectMocks
     private EventController eventController;
 
@@ -66,7 +63,6 @@ class EventControllerTest {
     }
     @Test
     void testGetEventById() throws Exception {
-        // Criando o EventResponseDTO com todos os campos necessários
         EventResponseDTO eventResponseDTO = new EventResponseDTO(
                 "1",
                 "Sample Event",
@@ -93,8 +89,6 @@ class EventControllerTest {
                 .andExpect(jsonPath("$.uf").value("SP"))
                 .andExpect(jsonPath("$.cep").value("12345-678"));
     }
-
-
     @Test
     void testGetAllEvents() throws Exception {
         when(eventService.getAllEvents()).thenReturn(List.of(eventResponseDTO));

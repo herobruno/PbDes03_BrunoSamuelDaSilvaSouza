@@ -19,7 +19,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class TicketController {
-
     @Autowired
     private TicketService ticketService;
     private final TicketMapper ticketMapper;
@@ -38,14 +37,12 @@ public class TicketController {
         TicketResponseDTO ticketResponseDTO = ticketService.createTicket(ticketRequestDTO, eventResponseDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(ticketResponseDTO);
     }
-
     @GetMapping("/get-ticket/{id}")
     public ResponseEntity<TicketResponseDTO> getTicketById(@PathVariable String id) {
         Ticket ticket = ticketService.findById(id);
         TicketResponseDTO responseDTO = ticketMapper.toResponseDTO(ticket);
         return ResponseEntity.ok(responseDTO);
     }
-
     @PutMapping("/update-ticket/{id}")
     public ResponseEntity<TicketResponseDTO> updateTicket(@PathVariable("id") String id, @RequestBody TicketResponseDTO ticketResponseDTO) {
         try {

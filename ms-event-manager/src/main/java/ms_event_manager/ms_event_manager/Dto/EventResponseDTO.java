@@ -3,14 +3,11 @@ package ms_event_manager.ms_event_manager.Dto;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Builder;
 import lombok.Data;
-
 import java.time.LocalDateTime;
 
 @Data
 public class EventResponseDTO {
-
     private String id;
     private String eventName;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
@@ -20,7 +17,6 @@ public class EventResponseDTO {
     private String bairro;
     private String localidade;
     private String uf;
-
 
     public EventResponseDTO(String id, String eventName, LocalDateTime dateTime, String cep, String logradouro, String bairro, String localidade, String uf) {
         this.id = id;
@@ -35,8 +31,5 @@ public class EventResponseDTO {
 
     public EventResponseDTO() {
 
-    }
-
-    public EventResponseDTO(String updatedEvent, String s, String number) {
     }
 }

@@ -2,7 +2,6 @@ package ms_ticket_manager.ms_ticket_manager.Controller;
 
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-
 import ms_ticket_manager.ms_ticket_manager.Dto.EventResponseDTO;
 import ms_ticket_manager.ms_ticket_manager.Dto.TicketRequestDTO;
 import ms_ticket_manager.ms_ticket_manager.Dto.TicketResponseDTO;
@@ -20,13 +19,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
-
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -44,8 +40,6 @@ public class TicketControllerTest {
 
     @MockBean
     private EventFeignClient eventFeignClient;
-
-
 
     @Test
     public void shouldCreateTicket() throws Exception {

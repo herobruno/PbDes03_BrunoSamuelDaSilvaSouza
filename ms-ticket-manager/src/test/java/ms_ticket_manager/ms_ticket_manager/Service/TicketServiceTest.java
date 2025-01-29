@@ -17,7 +17,6 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -30,8 +29,6 @@ public class TicketServiceTest {
     private TicketService ticketService;
     @MockBean
     private TicketRepository ticketRepository;
-    @Mock
-    private RabbitTemplate rabbitTemplate;
     private TicketRequestDTO ticketRequestDTO;
     private EventResponseDTO eventResponseDTO;
 

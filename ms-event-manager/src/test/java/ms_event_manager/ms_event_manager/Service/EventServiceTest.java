@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,7 +27,7 @@ public class EventServiceTest {
     @Mock
     private EventRepository eventRepository;
     @Mock
-    private IdCounterService idCounterService;  // Mock para o serviço de contador
+    private IdCounterService idCounterService;
     @Mock
     private EventMapper eventMapper;
     @Mock
@@ -37,7 +36,6 @@ public class EventServiceTest {
     private ViaCepClient viaCepClient;
     @InjectMocks
     private EventService eventService;
-
     private Event event;
     private EventRequestDTO eventRequestDTO;
     private EventResponseDTO eventResponseDTO;
@@ -164,7 +162,6 @@ public class EventServiceTest {
         verify(eventRepository, times(1)).findAll();
         verify(eventMapper, times(2)).toResponseDTO(any(Event.class));
     }
-
     @Test
     public void testUpdateEvent_EventNotFound() {
         String eventId = "1";

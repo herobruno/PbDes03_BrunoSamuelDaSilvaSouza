@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TicketIdGeneratorService {
-
     @Autowired
     private IdCounterRepository idCounterRepository;
     public String generateNextTicketId() {

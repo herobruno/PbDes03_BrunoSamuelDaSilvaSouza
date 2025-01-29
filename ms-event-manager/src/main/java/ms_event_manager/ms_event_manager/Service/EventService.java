@@ -9,21 +9,17 @@ import ms_event_manager.ms_event_manager.Dto.EventUpdateDTO;
 import ms_event_manager.ms_event_manager.Dto.Mapper.EventMapper;
 import ms_event_manager.ms_event_manager.Exception.EventNotFoundException;
 import ms_event_manager.ms_event_manager.Repository.EventRepository;
-import ms_event_manager.ms_event_manager.Repository.IdCounterRepository;
 import ms_event_manager.ms_event_manager.Repository.TicketManagerClient;
 import ms_event_manager.ms_event_manager.Repository.ViaCepClient;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class EventService {
-
     private final IdCounterService idCounterService;
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
@@ -84,11 +80,9 @@ public class EventService {
 
     public EventResponseDTO updateEvent(String id, EventUpdateDTO eventUpdateDTO) {
         Optional<Event> eventOptional = eventRepository.findById(id);
-
         if (eventOptional.isEmpty()) {
             throw new RuntimeException("Evento não encontrado com o ID: " + id);
         }
-
         Event event = eventOptional.get();
 
         if (eventUpdateDTO.getEventName() != null) {
