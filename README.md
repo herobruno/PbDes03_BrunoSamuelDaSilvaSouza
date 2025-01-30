@@ -71,15 +71,17 @@ Microsserviço responsável por gerenciar os ingressos dos eventos.
 - Java 17 instalado.
 - MongoDB Compass ou Atlas configurado.
 - RabbitMQ configurado (local ou cloud).
-- Duas instâncias AWS EC2 (uma para cada microsserviço).
-
-### **Banco de Dados:**
 - Base de dados: `db_event` e `db_ticket`.
+
 
 
 ### **Deploy AWS:**
 - Configurar VPC e Security Groups.
 - Utilizar ferramentas como `screen` ou `tmux` para manter as instâncias rodando.
+
+ ### **OBS:** 
+- As APIs estão disponíveis na aws, mas não foram publicamente disponibilizadas por motivos de segurança.
+- Se possuir duvidas cada Api possui seu README.
 
 ---
 
@@ -112,7 +114,7 @@ Cancelamento de ingressos utilizando soft-delete.
 ### **Testes Unitários:**
 - Cobertura mínima de 80%.
 - Para verificar a cobertura:
-  - Clique com o botão direito na classe/pacote e selecione **Run with coverage**.
+- Clique com o botão direito na classe/pacote e selecione **Run with coverage**.
 
 
 ---
