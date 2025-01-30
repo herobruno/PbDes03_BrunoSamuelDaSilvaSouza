@@ -75,12 +75,11 @@ Microsserviço responsável por gerenciar os ingressos dos eventos.
 
 
 
-### **Deploy AWS:**
-- Configurar VPC e Security Groups.
-- Utilizar ferramentas como `screen` ou `tmux` para manter as instâncias rodando.
+### **Deploy AWS Disponivel em:**
+- http://35.153.169.191:8080
+- http://35.153.169.191:8081
 
  ### **OBS:** 
-- As APIs estão disponíveis na aws, mas não foram publicamente disponibilizadas por motivos de segurança.
 - Se possuir duvidas cada Api possui seu README.
 
 ---
