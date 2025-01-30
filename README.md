@@ -79,7 +79,7 @@ Microsserviço responsável por gerenciar os ingressos dos eventos.
 - http://35.153.169.191:8080
 - http://35.153.169.191:8081
 
- ### **OBS:** 
+ ### **Obs:** 
 - Se possuir duvidas cada Api possui seu README.
 
 ---
